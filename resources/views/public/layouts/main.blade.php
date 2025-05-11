@@ -31,7 +31,7 @@
     @hasSection('header')
         @yield('header')
     @else
-        @include('partials.header')
+        @include('public.partials.header')
     @endif
     
     <!-- Main Content -->
@@ -43,7 +43,7 @@
     @endif
     
     <!-- Footer Section -->
-    @include('partials.footer')
+    @include('public.partials.footer')
     
     <!-- jQuery, Bootstrap JS -->
     <script src="{{ asset('js/jquery.min.js') }}"></script>

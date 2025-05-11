@@ -1,5 +1,5 @@
 <!-- filepath: resources/views/pages/about.blade.php -->
-@extends('layouts.main')
+@extends('public.layouts.main')
 
 @section('title', 'About - Unisco - Education Website')
 
