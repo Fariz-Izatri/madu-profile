@@ -29,21 +29,31 @@
 <body>
     <!-- Check if a custom header has been defined for this page -->
     @hasSection('header')
-        @yield('header')
+        @yield('header') 
     @else
-        @include('partials.header')
+        @include('public.partials.heroAction')
     @endif
     
     <!-- Main Content -->
-    @yield('content')
-    
+    @hasSection('content')
+        @yield('content')
+    @else
+        <div class="container">
+            <div class="row" style="text-align: center; margin-top: 50px; margin-bottom: 50px;">
+                <div class="col-md-12">
+                    <h1>Coming Soon</h1>
+                </div>
+            </div>
+        </div>
+    @endif
+ 
     <!-- Instagram Feed Section (if needed) -->
     @hasSection('show_instagram')
     <div id="instafeed"></div>
     @endif
     
     <!-- Footer Section -->
-    @include('partials.footer')
+    @include('public.partials.footer')
     
     <!-- jQuery, Bootstrap JS -->
     <script src="{{ asset('js/jquery.min.js') }}"></script>
