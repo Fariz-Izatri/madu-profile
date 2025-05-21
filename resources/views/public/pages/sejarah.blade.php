@@ -8,7 +8,6 @@
 @section('title', 'Sejarah - Unisco - Education Website')
 
 @section('header')
-    @include('public.partials.header')
     @include('public.partials.heroAction', ['tentang' => $tentang])
 @endsection
 

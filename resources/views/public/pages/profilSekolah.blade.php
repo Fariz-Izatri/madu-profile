@@ -9,7 +9,6 @@
 @section('title', 'Profil Sekolah - Unisco - Education Website')
 
 @section('header')
-    @include('public.partials.header')
     @include('public.partials.heroAction', ['tentang' => $tentang])
 @endsection
 

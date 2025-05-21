@@ -18,7 +18,7 @@
     <div class="col-md-3">
         <div class="foot-logo">
             <a href="index.html">
-                <img src="images/footer-logo.png" class="img-fluid" alt="footer_logo">
+                <img src="" class="img-fluid" alt="footer_logo">
             </a>
             <p>2016 © copyright
                 <br> All rights reserved.</p>
@@ -48,9 +48,9 @@
         <div class="col-md-3">
             <div class="address">
                 <h3>Contact us</h3>
-                <p><span>Address: </span> Unisco university Albany, NY, USA. 11001</p>
-                <p>Email : info@unisco.com
-                    <br> Phone : +91 555 668 986</p>
+                <p><span>Address: </span> SDN Medokan Ayu II, Surabaya, Indonesia.</p>
+                <p>Email : (emailsekolah)
+                    <br> Phone : notelponsekolah</p>
                     <ul class="footer-social-icons">
                         <li><a href="#"><i class="fa fa-facebook fa-fb" aria-hidden="true"></i></a></li>
                         <li><a href="#"><i class="fa fa-linkedin fa-in" aria-hidden="true"></i></a></li>

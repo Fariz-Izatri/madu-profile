@@ -6,7 +6,7 @@
                   <button class="navbar-toggler navbar-toggler2 navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown">
                       <span class="icon-menu"></span>
                   </button>
-                  <a href="{{ url('/') }}" class="navbar-brand nav-brand2"><h2><b>UNISCO</b></h2></a>
+                  <a href="{{ url('/') }}" class="navbar-brand nav-brand2"><h2><b>SDN Medokan Ayu II</b></h2></a>
                   <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
@@ -43,7 +43,6 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ url('/sejarah') }}">Sejarah</a></li>
                             <li><a class="dropdown-item" href="{{ url('/profilSekolah') }}">Profil Sekolah</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/gallery') }}">Gallery</a></li>
                         </ul>
                         </li>
                         <li class="nav-item">

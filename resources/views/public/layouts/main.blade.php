@@ -27,6 +27,9 @@
 </head>
 
 <body>
+    <!-- Header -->
+    @include('public.partials.header')
+    
     <!-- Check if a custom header has been defined for this page -->
     @hasSection('header')
         @yield('header') 

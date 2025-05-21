@@ -6,13 +6,14 @@
 
 @extends('public.layouts.main')
 
-@section('title', 'Berita - Unisco - Education Website')
+@section('title', 'Berita')
 
 @section('header')
-    @include('public.partials.header')
     @include('public.partials.heroAction', ['tentang' => $tentang])
 @endsection
 
 @section('content')
-    @include('public.partials.berita')
+    @include('public.partials.berita', [
+        'daftarBerita' => $daftarBerita
+    ])
 @endsection

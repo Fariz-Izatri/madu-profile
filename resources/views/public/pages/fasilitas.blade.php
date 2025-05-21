@@ -9,10 +9,9 @@
 @section('title', 'Fasilitas - Unisco - Education Website')
 
 @section('header')
-    @include('public.partials.header')
     @include('public.partials.heroAction', ['tentang' => $tentang])
 @endsection
 
 @section('content')
-
+    @include('public.partials.fasilitas')
 @endsection

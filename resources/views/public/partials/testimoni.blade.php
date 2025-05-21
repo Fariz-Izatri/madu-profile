@@ -6,82 +6,44 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-6">
-            <div class="our-teachers-block">
-                <img src="images/our-teachers_01.jpg" class="img-fluid teachers-img" alt="#">
-                <div class="teachers-description">
-                    <p><strong>Melissa Baker</strong>
-                        <br> MBA, PhD
-                    </p>
-                    <hr />
-                    <p>Syllabus : <span>Economics, Marketing &amp; Finance</span></p>
-                    <div class="social-icons">
-                        <ul>
-                            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-6">
-            <div class="our-teachers-block">
-                <img src="images/our-teachers_02.jpg" class="img-fluid teachers-img" alt="#">
-                <div class="teachers-description">
-                    <p><strong>Raymond Salazar</strong>
-                        <br> MCA, PhD
-                    </p>
-                    <hr />
-                    <p> Syllabus : <span>Computer Science, Astronomy &amp; Robotics</span></p>
-                    <div class="social-icons">
-                        <ul>
-                            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-6">
-            <div class="our-teachers-block">
-                <img src="images/our-teachers_03.jpg" class="img-fluid teachers-img" alt="#">
-                <div class="teachers-description">
-                    <p><strong>Alexander Bennett</strong>
-                        <br> PhD, Medical Sciences
-                    </p>
-                    <hr />
-                    <p> Syllabus : <span>Physics, Chemistry &amp; Biology</span></p>
-                    <div class="social-icons">
-                        <ul>
-                            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-6">
-            <div class="our-teachers-block">
-                <img src="images/our-teachers_04.jpg" class="img-fluid teachers-img" alt="#">
-                <div class="teachers-description">
-                    <p><strong>Charles Murphy</strong>
-                        <br> MFA, PhD</p>
+        @forelse($testimoni as $testi)
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="our-teachers-block">
+                    @if($testi->image)
+                        <img src="{{ asset($testi->image) }}" class="img-fluid teachers-img" alt="{{ $testi->author_name }}">
+                    @else
+                        <img src="{{ asset('images/our-teachers_01.jpg') }}" class="img-fluid teachers-img" alt="{{ $testi->author_name }}">
+                    @endif
+                    <div class="teachers-description">
+                        <h6>"{{ $testi->title }}"</h6>
                         <hr />
-                        <p> Syllabus : <span> English, Language &amp; Arts</span></p>
-                        <div class="social-icons">
-                            <ul>
-                                <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                            </ul>
-                        </div>
+                        <p><strong>{{ $testi->author_name }}</strong></p>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- End row -->
+        @empty
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="our-teachers-block">
+                    <img src="{{ asset('images/our-teachers_01.jpg') }}" class="img-fluid teachers-img" alt="#">
+                    <div class="teachers-description">
+                        <h6>"Belajar dari yang terbaik, bersama yang terbaik, dari yang terbaik"</h6>
+                        <hr />
+                        <p><strong>Karen Angela</strong></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="our-teachers-block">
+                    <img src="{{ asset('images/our-teachers_02.jpg') }}" class="img-fluid teachers-img" alt="#">
+                    <div class="teachers-description">
+                        <h6>"Belajar dari yang terbaik, bersama yang terbaik, dari yang terbaik"</h6>
+                        <hr />
+                        <p><strong>Raymond Salazar</strong></p>
+                    </div>
+                </div>
+            </div>
+        @endforelse
     </div>
+    <!-- End row -->
+</div>
 </section>
