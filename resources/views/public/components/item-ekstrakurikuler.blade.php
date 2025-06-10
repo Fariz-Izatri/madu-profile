@@ -3,10 +3,10 @@
 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
     <div class="courses_box mb-5">
         <div class="course-img-wrap">
-            @if($ekskul->gambar && file_exists(public_path(str_replace('/storage', '/storage/app/public', $ekskul->gambar))))
-                <img src="{{ $ekskul->gambar }}" class="img-fluid" alt="{{ $ekskul->nama }}">
+            @if($ekskul->gambar && file_exists(public_path(ltrim($ekskul->gambar, '/'))))
+                <img src="{{ $ekskul->gambar }}" class="img-fluid" alt="{{ $ekskul->nama }}" style="width: 100%; height: 200px; object-fit: cover;">
             @else
-                <img src="{{ asset('images/courses_1.jpg') }}" class="img-fluid" alt="{{ $ekskul->nama }}">
+                <img src="{{ asset('images/courses_1.jpg') }}" class="img-fluid" alt="{{ $ekskul->nama }}" style="width: 100%; height: 200px; object-fit: cover;">
             @endif
             <div class="courses_box-img">
                 <div class="courses-link-wrap">
@@ -34,8 +34,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    @if($ekskul->gambar && file_exists(public_path(str_replace('/storage', '/storage/app/public', $ekskul->gambar))))
-                        <img src="{{ $ekskul->gambar }}" class="img-fluid mb-3" alt="{{ $ekskul->nama }}">
+                    @if($ekskul->gambar && file_exists(public_path(ltrim($ekskul->gambar, '/'))))
+                        <img src="{{ $ekskul->gambar }}" class="img-fluid mb-3" alt="{{ $ekskul->nama }}" style="max-height: 400px; width: auto; margin: 0 auto; display: block;">
                     @else
                         <img src="{{ asset('images/courses_1.jpg') }}" class="img-fluid mb-3" alt="{{ $ekskul->nama }}">
                     @endif

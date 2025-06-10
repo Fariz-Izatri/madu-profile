@@ -12,19 +12,20 @@ class Event extends Model
 
     protected $fillable = [
         'title',
+        'slug',
         'description',
-        'date',
-        'time',
-        'images',
-        'highlight_description_1',
-        'highlight_description_2',
-        'is_completed',
+        'event_date',
+        'event_time',
+        'location',
+        'image',
+        'is_featured',
+        'is_active',
     ];
 
     protected $casts = [
-        'date' => 'date',
-        'images' => 'array',
-        'is_completed' => 'boolean',
+        'event_date' => 'date',
+        'is_featured' => 'boolean',
+        'is_active' => 'boolean',
     ];
 
     /**
@@ -35,9 +36,8 @@ class Event extends Model
      */
     public function scopeUpcoming($query)
     {
-        return $query->where('date', '>=', Carbon::today())
-                    ->where('is_completed', false)
-                    ->orderBy('date', 'asc');
+        return $query->where('event_date', '>=', Carbon::today())
+                    ->orderBy('event_date', 'asc'); // Closest dates first
     }
 
     /**
@@ -48,7 +48,18 @@ class Event extends Model
      */
     public function scopeCompleted($query)
     {
-        return $query->where('is_completed', true)
-                    ->orderBy('date', 'desc');
+        return $query->where('event_date', '<', Carbon::today())
+                    ->orderBy('event_date', 'desc');
+    }
+    
+    /**
+     * Get the is_completed attribute.
+     * Events are automatically considered completed if their date is in the past.
+     *
+     * @return bool
+     */
+    public function getIsCompletedAttribute()
+    {
+        return $this->event_date < Carbon::today();
     }
 } 

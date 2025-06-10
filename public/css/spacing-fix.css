@@ -1,0 +1,66 @@
+/* Fix for hero action and content spacing */
+
+/* Spacing for enhanced page headers with curves */
+.enhanced-page-header {
+    margin-bottom: 40px !important;
+}
+
+.enhanced-page-header + section,
+.enhanced-page-header + .container {
+    padding-top: 30px !important;
+    margin-top: -20px !important; /* Pull content slightly up for better visual spacing */
+    position: relative;
+    z-index: 5;
+}
+
+/* Only add bottom padding to the hero section (for content below) */
+.about_bg {
+    padding-bottom: 40px;
+    margin-top: 0 !important; /* Remove any top margin */
+    padding-top: 0 !important; /* Remove any top padding */
+}
+
+/* Only add top padding to sections that follow the hero */
+.about_bg + section {
+    padding-top: 30px;
+}
+
+/* Fix for the navbar and hero spacing - target specific structure */
+.nav-menu2 + .about_bg,
+[data-toggle="affix"] + .about_bg,
+.navbar2 + .about_bg,
+.nav-menu2 + .enhanced-page-header,
+[data-toggle="affix"] + .enhanced-page-header,
+.navbar2 + .enhanced-page-header {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* Target any direct container after the hero */
+.about_bg + .container {
+    margin-top: 30px;
+}
+
+@media (max-width: 767px) {
+    .enhanced-page-header {
+        margin-bottom: 30px !important;
+    }
+    
+    .enhanced-page-header + section,
+    .enhanced-page-header + .container {
+        padding-top: 40px !important;
+        margin-top: -10px !important;
+    }
+    
+    .about_bg {
+        padding-bottom: 60px;
+    }
+    
+    .about_bg + section {
+        padding-top: 50px;
+    }
+    
+    .about_bg + .container {
+        margin-top: 40px;
+    }
+}

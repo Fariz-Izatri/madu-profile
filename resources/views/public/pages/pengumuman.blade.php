@@ -3,7 +3,7 @@
 @section('title', 'Pengumuman')
 
 @section('content')
-    @include('public.partials.pengumuman', [
+    @include('public.partials.events', [
         'upcomingEvents' => $upcomingEvents, 
         'completedEvents' => $completedEvents
     ])

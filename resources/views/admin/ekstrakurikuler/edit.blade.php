@@ -79,7 +79,7 @@
                                     <label class="custom-file-label" for="gambar">Pilih gambar baru (opsional)</label>
                                 </div>
                             </div>
-                            <small class="form-text text-muted">Format: jpg, jpeg, png, gif. Maksimal 2MB.</small>
+                            <small class="form-text text-muted">Format: jpg, jpeg, png, gif. Maksimal 2MB. Gambar akan dioptimalkan ke ukuran 400x300px untuk tampilan yang konsisten.</small>
                         </div>
                         
                         <div class="form-group">
@@ -114,5 +114,4 @@
             $(this).next('.custom-file-label').addClass("selected").html(fileName);
         });
     });
-</script>
-@endpush 
+</script> 

@@ -51,16 +51,15 @@
                             <label for="judul">Judul Pendaftaran <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="judul" name="judul" value="{{ old('judul') }}" required>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="tahun_ajaran">Tahun Ajaran <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="tahun_ajaran" name="tahun_ajaran" value="{{ old('tahun_ajaran') }}" required>
-                            <small class="form-text text-muted">Contoh: 2023/2024</small>
-                        </div>
 
                         <div class="form-group">
-                            <label for="tanggal">Tanggal <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{ old('tanggal') }}" required>
+                            <label for="tanggal_mulai">Tanggal Mulai <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai" value="{{ old('tanggal_mulai') }}" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tanggal_selesai">Tanggal Selesai <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai" value="{{ old('tanggal_selesai') }}" required>
                         </div>
                         
                         <div class="form-group">
@@ -70,14 +69,9 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="file_panduan">File Panduan</label>
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="file_panduan" name="file_panduan">
-                                    <label class="custom-file-label" for="file_panduan">Pilih file</label>
-                                </div>
-                            </div>
-                            <small class="form-text text-muted">Format: pdf, doc, docx. Maksimal 2MB.</small>
+                            <label for="link_pendaftaran">Link Pendaftaran</label>
+                            <input type="url" class="form-control" id="link_pendaftaran" name="link_pendaftaran" value="{{ old('link_pendaftaran') }}">
+                            <small class="form-text text-muted">Masukkan URL lengkap (https://...) untuk form pendaftaran</small>
                         </div>
                         
                         <div class="form-group">

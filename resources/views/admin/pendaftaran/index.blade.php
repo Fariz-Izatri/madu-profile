@@ -38,9 +38,9 @@
                                 <tr>
                                     <th style="width: 50px">No.</th>
                                     <th>Judul</th>
-                                    <th>Tahun Ajaran</th>
-                                    <th>Tanggal</th>
-                                    <th>File Panduan</th>
+                                    <th>Tanggal Mulai</th>
+                                    <th>Tanggal Selesai</th>
+                                    <th>Link Pendaftaran</th>
                                     <th>Status</th>
                                     <th style="width: 150px" class="text-center">Aksi</th>
                                 </tr>
@@ -50,15 +50,15 @@
                                 <tr>
                                     <td>{{ $index + $pendaftaran->firstItem() }}</td>
                                     <td>{{ $item->judul }}</td>
-                                    <td>{{ $item->tahun_ajaran }}</td>
-                                    <td>{{ $item->tanggal->format('d M Y') }}</td>
+                                    <td>{{ $item->tanggal_mulai ? $item->tanggal_mulai->format('d M Y') : '-' }}</td>
+                                    <td>{{ $item->tanggal_selesai ? $item->tanggal_selesai->format('d M Y') : '-' }}</td>
                                     <td>
-                                        @if($item->file_panduan)
-                                            <a href="{{ $item->file_panduan }}" target="_blank" class="btn btn-sm btn-info">
-                                                <i class="fas fa-file-pdf"></i> Lihat
+                                        @if($item->link_pendaftaran)
+                                            <a href="{{ $item->link_pendaftaran }}" target="_blank" class="btn btn-sm btn-info">
+                                                <i class="fas fa-link"></i> Link
                                             </a>
                                         @else
-                                            <span class="text-muted">Tidak ada file</span>
+                                            <span class="text-muted">Tidak ada link</span>
                                         @endif
                                     </td>
                                     <td>

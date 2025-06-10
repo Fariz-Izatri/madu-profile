@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use App\Models\FooterSettings;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +24,11 @@ class AppServiceProvider extends ServiceProvider
     {
         // Register the admin view namespace
         View::addNamespace('layouts', resource_path('views/admin/layouts'));
+        
+        // Share footer settings with all views
+        View::composer('public.partials.footer', function ($view) {
+            $view->with('footerSettings', FooterSettings::first());
+        });
         
         // components location
         Blade::component('admin.components.application-logo', 'application-logo');

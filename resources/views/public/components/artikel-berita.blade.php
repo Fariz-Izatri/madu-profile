@@ -1,36 +1,24 @@
 @props(['berita'])
 
 <div class="blog-single-item">
-    <div class="blog-img_block">
-        @if($berita->gambar && file_exists(public_path(str_replace('/storage', '/storage/app/public', $berita->gambar))))
-            <img src="{{ $berita->gambar }}" class="img-fluid" alt="{{ $berita->judul }}">
-        @else
-            <img src="{{ asset('images/blog/blog-img_01.jpg') }}" class="img-fluid" alt="{{ $berita->judul }}">
-        @endif
-        <div class="blog-date">
-            <span>{{ \Carbon\Carbon::parse($berita->tanggal)->format('d-m-y') }}</span>
-        </div>
-    </div>
-    <div class="blog-tiltle_block">
-        <h4><a href="{{ route('berita.detail', $berita->id) }}">{{ $berita->judul }}</a></h4>
-        <h6> 
-            <a href="#"><i class="fa fa-user" aria-hidden="true"></i><span>{{ $berita->penulis ?? 'admin' }}</span></a> 
-            @if($berita->kategori)
-            | <a href="{{ route('berita.kategori', $berita->kategori->slug) }}"><i class="fa fa-tags" aria-hidden="true"></i><span>{{ $berita->kategori->nama }}</span></a>
-            @endif
-        </h6>
-        <p>{{ Str::limit($berita->konten, 150) }}</p>
-        <a href="{{ route('berita.detail', $berita->id) }}">Baca Selengkapnya</a>
-        <div class="blog-icons">
-            <div class="blog-share_block">
-                <ul>
-                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                    <li> Bagikan :</li>
-                </ul>
+    <div class="blog-content_block">
+        <div class="blog-tiltle_block">
+            <h4><a href="{{ route('berita.detail', $berita->id) }}">{{ $berita->judul }}</a></h4>
+            <h6> 
+                <span class="text-muted mr-2">{{ \Carbon\Carbon::parse($berita->tanggal)->format('d M Y') }}</span>
+                | <a href="#"><i class="fa fa-user" aria-hidden="true"></i><span>{{ $berita->penulis ?? 'admin' }}</span></a> 
+                @if($berita->external_link)
+                | <a href="{{ $berita->external_link }}" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i><span>Link Terkait</span></a>
+                @endif
+            </h6>
+            <p>{{ Str::limit($berita->konten, 150) }}</p>
+            <div class="mt-3 mb-4">
+                <a href="{{ route('berita.detail', $berita->id) }}" class="btn btn-sm btn-primary">
+                    <i class="fa fa-arrow-right mr-1"></i> Baca Selengkapnya
+                </a>
             </div>
         </div>
     </div>
+    <div class="separator-line"></div>
 </div>
 <!-- // end .blog-single --> 

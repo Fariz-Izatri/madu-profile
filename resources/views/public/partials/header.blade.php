@@ -46,7 +46,7 @@
                         </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/kontak') }}">Contact</a>
+                            <a class="nav-link" href="#footer-section">Kontak</a>
                         </li>
                   </ul>
               </div>

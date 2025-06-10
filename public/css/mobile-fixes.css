@@ -1,0 +1,206 @@
+/* 
+* Mobile-specific fixes for SDN Medokan Ayu II 
+* This file contains only targeted overrides for specific mobile issues
+*/
+
+/* Mobile navbar fixes */
+@media (max-width: 767px) {
+    /* Reduce navbar height */
+    .navbar2 {
+        padding: 5px 0;
+    }
+    
+    /* Align school name to left and toggle to right */
+    .nav-brand2 {
+        float: left;
+        margin-left: 15px;
+    }
+    
+    .nav-brand2 h2 {
+        font-size: 14px;
+        margin: 10px 0;
+        display: inline-block;
+        max-width: 75%;
+    }
+    
+    /* Move hamburger to right side */
+    .navbar-toggler {
+        float: right;
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        padding: 4px 8px;
+        z-index: 9999;
+    }
+    
+    /* Make icon menu more visible */
+    .icon-menu {
+        color: #fff;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+    
+    /* Ensure navbar collapses properly */
+    .navbar-collapse {
+        clear: both;
+        padding-top: 10px;
+    }
+    
+    /* Fix the space between the navbar and about_bg - should be none */
+    [data-toggle="affix"] + .about_bg,
+    .nav-menu2 + .about_bg {
+        margin-top: 0 !important;
+    }
+    
+    /* CRITICAL: Fix for content after hero - prevent cut-off */
+    .about_bg + section {
+        padding-top: 50px !important; /* Space after hero */
+        margin-top: 0 !important; /* No extra margin */
+    }
+    
+    /* Add spacing between sections on mobile */
+    section {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+    
+    /* Fix for the hero section specifically */
+    section:first-of-type {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    
+    /* ============================================================== */
+    /* MOBILE HERO FIXES - OVERRIDE ALL OTHER STYLES */
+    /* ============================================================== */
+    
+    /* Hide carousel controls on mobile */
+    .carousel-control-prev,
+    .carousel-control-next,
+    .carousel-indicators {
+        display: none !important;
+    }
+    
+    /* Reset transforms and positioning for mobile slider */
+    .mobile-hero .carousel-caption,
+    .carousel-caption {
+        transform: none !important;
+        -webkit-transform: none !important;
+        -ms-transform: none !important;
+        position: absolute !important;
+        top: auto !important;
+        bottom: 20px !important;
+    }
+    
+    /* Mobile hero container position */
+    .mobile-hero {
+        position: relative !important;
+        overflow: hidden !important;
+        height: auto !important;
+        max-height: 350px !important;
+    }
+    
+    /* Make images shorter on mobile */
+    .mobile-hero img,
+    .carousel-item img {
+        height: 350px !important;
+        max-height: 350px !important;
+        width: 100% !important;
+        object-fit: cover !important;
+    }
+    
+    /* Style the mobile caption */
+    .mobile-hero .carousel-caption {
+        background-color: rgba(0, 0, 0, 0.6) !important;
+        padding: 15px !important;
+        border-radius: 5px !important;
+        bottom: 20px !important;
+        width: 90% !important;
+        left: 5% !important;
+        right: 5% !important;
+        max-height: 60% !important; 
+        overflow-y: auto !important;
+        z-index: 10 !important;
+    }
+    
+    /* Mobile text styling */
+    .mobile-hero .slider_title h1 {
+        font-size: 24px !important;
+        margin-bottom: 10px !important;
+    }
+    
+    .mobile-hero .slider_title h4 {
+        font-size: 16px !important;
+        line-height: 1.4 !important;
+    }
+    
+    /* Mobile button styling */
+    .mobile-hero .slider-btn {
+        margin: 15px 0 0 !important;
+    }
+    
+    .mobile-hero .slider-btn .btn {
+        padding: 8px 15px !important;
+        font-size: 14px !important;
+    }
+    
+    /* Add space between hero and next section */
+    .slider_img {
+        margin-bottom: 20px !important;
+    }
+    
+    /* Ensure proper spacing for the sections after slider */
+    .admission_cources {
+        padding-top: 40px !important;
+        margin-top: 20px !important;
+    }
+    
+    /* Ensure the slider container doesn't overlap other content */
+    section > .slider_img {
+        margin-bottom: 0 !important;
+        position: relative !important;
+        z-index: 1 !important;
+    }
+    
+    /* Set proper z-index for content after slider */
+    section:not(:first-of-type) {
+        position: relative !important;
+        z-index: 2 !important;
+    }
+}
+
+/* Extra small device fixes */
+@media (max-width: 480px) {
+    .nav-brand2 h2 {
+        font-size: 12px;
+        max-width: 70%;
+    }
+    
+    /* More spacing for tiny screens */
+    .about_bg + section {
+        padding-top: 70px !important;
+    }
+    
+    /* Make hero images even shorter on very small screens */
+    .mobile-hero img,
+    .carousel-item img {
+        height: 300px !important;
+        max-height: 300px !important;
+    }
+    
+    /* Position caption higher for better visibility */
+    .mobile-hero .carousel-caption {
+        bottom: 10px !important;
+        max-height: 60% !important;
+        padding: 10px !important;
+    }
+    
+    /* Even smaller text */
+    .mobile-hero .slider_title h1 {
+        font-size: 20px !important;
+        margin-bottom: 8px !important;
+    }
+    
+    .mobile-hero .slider_title h4 {
+        font-size: 14px !important;
+    }
+} 

@@ -15,39 +15,11 @@ class BeritaSeeder extends Seeder
      */
     public function run(): void
     {
-        // Buat kategori
-        $kategori = [
-            [
-                'nama' => 'Pendidikan',
-                'slug' => 'pendidikan',
-                'deskripsi' => 'Berita seputar dunia pendidikan'
-            ],
-            [
-                'nama' => 'Prestasi',
-                'slug' => 'prestasi',
-                'deskripsi' => 'Berita prestasi siswa dan sekolah'
-            ],
-            [
-                'nama' => 'Kegiatan',
-                'slug' => 'kegiatan',
-                'deskripsi' => 'Berita kegiatan yang diselenggarakan oleh sekolah'
-            ],
-            [
-                'nama' => 'Informasi',
-                'slug' => 'informasi',
-                'deskripsi' => 'Informasi terkini dari sekolah'
-            ]
-        ];
-        
-        foreach ($kategori as $k) {
-            KategoriBerita::create($k);
-        }
-        
-        // ID kategori
-        $pendidikanId = KategoriBerita::where('slug', 'pendidikan')->first()->id;
+        // Get existing kategori IDs
+        $pendidikanId = KategoriBerita::where('slug', 'artikel-pendidikan')->first()->id;
         $prestasiId = KategoriBerita::where('slug', 'prestasi')->first()->id;
-        $kegiatanId = KategoriBerita::where('slug', 'kegiatan')->first()->id;
-        $informasiId = KategoriBerita::where('slug', 'informasi')->first()->id;
+        $kegiatanId = KategoriBerita::where('slug', 'kegiatan-sekolah')->first()->id;
+        $informasiId = KategoriBerita::where('slug', 'pengumuman')->first()->id;
         
         // Berita
         $berita = [
@@ -59,7 +31,7 @@ class BeritaSeeder extends Seeder
                 'penulis' => 'Tim Redaksi',
                 'is_populer' => true,
                 'kategori_id' => $prestasiId,
-                'gambar' => null
+                'external_link' => null
             ],
             [
                 'judul' => 'SDN Medokan Ayu II Menyelenggarakan Workshop Pembelajaran Berbasis Teknologi untuk Guru',
@@ -69,7 +41,7 @@ class BeritaSeeder extends Seeder
                 'penulis' => 'Admin Sekolah',
                 'is_populer' => true,
                 'kategori_id' => $pendidikanId,
-                'gambar' => null
+                'external_link' => null
             ],
             [
                 'judul' => 'Peringatan Hari Kemerdekaan ke-78 di SDN Medokan Ayu II Berlangsung Meriah',
@@ -79,7 +51,7 @@ class BeritaSeeder extends Seeder
                 'penulis' => 'Panitia HUT RI',
                 'is_populer' => false,
                 'kategori_id' => $kegiatanId,
-                'gambar' => null
+                'external_link' => null
             ],
             [
                 'judul' => 'Program Literasi SDN Medokan Ayu II: Mendorong Minat Baca Siswa',
@@ -89,7 +61,7 @@ class BeritaSeeder extends Seeder
                 'penulis' => 'Tim Literasi Sekolah',
                 'is_populer' => true,
                 'kategori_id' => $pendidikanId,
-                'gambar' => null
+                'external_link' => null
             ],
             [
                 'judul' => 'Penerimaan Rapor Semester Ganjil Tahun Ajaran 2023/2024',
@@ -99,7 +71,7 @@ class BeritaSeeder extends Seeder
                 'penulis' => 'Admin Sekolah',
                 'is_populer' => false,
                 'kategori_id' => $informasiId,
-                'gambar' => null
+                'external_link' => null
             ],
         ];
         

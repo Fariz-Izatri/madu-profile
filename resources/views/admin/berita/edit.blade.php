@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 
-                <form action="{{ route('admin.berita.update', $berita->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.berita.update', $berita->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="card-body">
@@ -79,19 +79,9 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="gambar">Gambar</label>
-                            @if($berita->gambar)
-                                <div class="mb-2">
-                                    <img src="{{ $berita->gambar }}" alt="{{ $berita->judul }}" class="img-thumbnail" style="max-height: 200px;">
-                                </div>
-                            @endif
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="gambar" name="gambar">
-                                    <label class="custom-file-label" for="gambar">Pilih gambar baru (opsional)</label>
-                                </div>
-                            </div>
-                            <small class="form-text text-muted">Format: jpg, jpeg, png, gif. Maksimal 2MB.</small>
+                            <label for="external_link">Link Terkait</label>
+                            <input type="url" class="form-control" id="external_link" name="external_link" value="{{ old('external_link', $berita->external_link) }}" placeholder="https://example.com/info">
+                            <small class="form-text text-muted">Masukkan URL lengkap (termasuk http:// atau https://) ke halaman web eksternal yang terkait dengan berita ini.</small>
                         </div>
                         
                         <div class="form-group">
@@ -115,16 +105,4 @@
         </div>
     </div>
 </div>
-@endsection
-
-@push('scripts')
-<script>
-    $(function() {
-        // File input preview
-        $('.custom-file-input').on('change', function() {
-            var fileName = $(this).val().split('\\').pop();
-            $(this).next('.custom-file-label').addClass("selected").html(fileName);
-        });
-    });
-</script>
-@endpush 
+@endsection 

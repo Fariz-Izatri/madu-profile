@@ -7,7 +7,7 @@
                         <div class="col-md-12">
                             <div class="date-description ml-0">
                                 <h3>Visi</h3>
-                                <p>When an unknown printer took a galley of type and scrambled it to make a type specimen book ...</p>
+                                <p>{{ $sejarah->visi ?? 'Informasi visi belum tersedia.' }}</p>
                             </div>
                         </div>
                     </div>
@@ -18,7 +18,7 @@
                         <div class="col-md-12">
                             <div class="date-description ml-0">
                                 <h3>Misi</h3>
-                                <p>When an unknown printer took a galley of type and scrambled it to make a type specimen book ...</p>
+                                <p>{!! nl2br(e($sejarah->misi ?? 'Informasi misi belum tersedia.')) !!}</p>
                             </div>
                         </div>
                     </div>

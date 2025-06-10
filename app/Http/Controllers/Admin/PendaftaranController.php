@@ -38,44 +38,22 @@ class PendaftaranController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
-            'tanggal' => 'required|date',
-            'tahun_ajaran' => 'required|string|max:255',
-            'file_panduan' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
+            'tanggal_mulai' => 'required|date',
+            'tanggal_selesai' => 'required|date',
+            'link_pendaftaran' => 'nullable|string|max:255',
+            'kontak_pendaftaran' => 'nullable|string|max:255',
         ]);
         
         try {
             $data = [
                 'judul' => $request->judul,
-                'slug' => Str::slug($request->judul),
                 'deskripsi' => $request->deskripsi,
-                'tanggal' => $request->tanggal,
-                'tahun_ajaran' => $request->tahun_ajaran,
+                'tanggal_mulai' => $request->tanggal_mulai,
+                'tanggal_selesai' => $request->tanggal_selesai,
+                'link_pendaftaran' => $request->link_pendaftaran,
+                'kontak_pendaftaran' => $request->kontak_pendaftaran,
                 'is_active' => $request->has('is_active')
             ];
-            
-            // Upload file panduan
-            if ($request->hasFile('file_panduan') && $request->file('file_panduan')->isValid()) {
-                try {
-                    // Ensure directory exists
-                    $directory = 'pendaftaran';
-                    if (!Storage::disk('public')->exists($directory)) {
-                        Storage::disk('public')->makeDirectory($directory);
-                        Log::info('Created directory: ' . $directory);
-                    }
-                    
-                    $path = $request->file('file_panduan')->store($directory, 'public');
-                    Log::info('File stored at path: ' . $path);
-                    
-                    if ($path) {
-                        $data['file_panduan'] = '/storage/' . $path;
-                    } else {
-                        Log::error('Failed to store pendaftaran file: null path returned');
-                    }
-                } catch (Exception $uploadEx) {
-                    Log::error('Error uploading pendaftaran file: ' . $uploadEx->getMessage());
-                    // Continue without file
-                }
-            }
             
             Pendaftaran::create($data);
             
@@ -108,52 +86,22 @@ class PendaftaranController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
-            'tanggal' => 'required|date',
-            'tahun_ajaran' => 'required|string|max:255',
-            'file_panduan' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
+            'tanggal_mulai' => 'required|date',
+            'tanggal_selesai' => 'required|date',
+            'link_pendaftaran' => 'nullable|string|max:255',
+            'kontak_pendaftaran' => 'nullable|string|max:255',
         ]);
         
         try {
             $data = [
                 'judul' => $request->judul,
-                'slug' => Str::slug($request->judul),
                 'deskripsi' => $request->deskripsi,
-                'tanggal' => $request->tanggal,
-                'tahun_ajaran' => $request->tahun_ajaran,
+                'tanggal_mulai' => $request->tanggal_mulai,
+                'tanggal_selesai' => $request->tanggal_selesai,
+                'link_pendaftaran' => $request->link_pendaftaran,
+                'kontak_pendaftaran' => $request->kontak_pendaftaran,
                 'is_active' => $request->has('is_active')
             ];
-            
-            // Upload file panduan baru jika ada
-            if ($request->hasFile('file_panduan') && $request->file('file_panduan')->isValid()) {
-                try {
-                    // Hapus file lama jika ada
-                    if ($pendaftaran->file_panduan && !str_starts_with($pendaftaran->file_panduan, 'files/')) {
-                        $oldFile = str_replace('/storage/', '', $pendaftaran->file_panduan);
-                        if (Storage::disk('public')->exists($oldFile)) {
-                            Storage::disk('public')->delete($oldFile);
-                        }
-                    }
-                    
-                    // Ensure directory exists
-                    $directory = 'pendaftaran';
-                    if (!Storage::disk('public')->exists($directory)) {
-                        Storage::disk('public')->makeDirectory($directory);
-                        Log::info('Created directory: ' . $directory);
-                    }
-                    
-                    $path = $request->file('file_panduan')->store($directory, 'public');
-                    Log::info('File stored at path: ' . $path);
-                    
-                    if ($path) {
-                        $data['file_panduan'] = '/storage/' . $path;
-                    } else {
-                        Log::error('Failed to store updated pendaftaran file: null path returned');
-                    }
-                } catch (Exception $uploadEx) {
-                    Log::error('Error uploading updated pendaftaran file: ' . $uploadEx->getMessage());
-                    // Continue without updating file
-                }
-            }
             
             $pendaftaran->update($data);
             
@@ -176,14 +124,6 @@ class PendaftaranController extends Controller
     public function destroy(Pendaftaran $pendaftaran)
     {
         try {
-            // Hapus file jika ada
-            if ($pendaftaran->file_panduan && !str_starts_with($pendaftaran->file_panduan, 'files/')) {
-                $oldFile = str_replace('/storage/', '', $pendaftaran->file_panduan);
-                if (Storage::disk('public')->exists($oldFile)) {
-                    Storage::disk('public')->delete($oldFile);
-                }
-            }
-            
             $pendaftaran->delete();
             
             return redirect()->route('admin.pendaftaran.index')

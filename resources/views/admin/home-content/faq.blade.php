@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Kelola FAQ')
+@section('title', 'Kelola Tanya Jawab')
 
 @section('content')
 <div class="container-fluid">
@@ -8,7 +8,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Kelola Pertanyaan Umum (FAQ)</h3>
+                    <h3 class="card-title">Kelola Tanya Jawab (FAQ)</h3>
                     <div class="card-tools">
                         <a href="{{ route('admin.home-content.index') }}" class="btn btn-default btn-sm">
                             <i class="fas fa-arrow-left"></i> Kembali
@@ -29,7 +29,7 @@
                             @endif
                             
                             <div class="form-group">
-                                <label for="title">Judul Bagian</label>
+                                <label for="title">Judul Bagian (Tanya Jawab)</label>
                                 <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title', $faq->title) }}" required>
                                 @error('title')
                                     <span class="invalid-feedback">{{ $message }}</span>
@@ -101,7 +101,7 @@
                 @else
                     <div class="card-body">
                         <div class="alert alert-info">
-                            Data FAQ tidak ditemukan.
+                            Data Tanya Jawab tidak ditemukan.
                         </div>
                     </div>
                 @endif

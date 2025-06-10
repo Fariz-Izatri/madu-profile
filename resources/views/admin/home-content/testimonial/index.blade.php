@@ -13,9 +13,6 @@
                         <a href="{{ route('admin.home-content.testimonial.create') }}" class="btn btn-primary btn-sm">
                             <i class="fas fa-plus"></i> Tambah Testimoni
                         </a>
-                        <a href="{{ route('admin.home-content.testimonial.migrate') }}" class="btn btn-info btn-sm ml-2">
-                            <i class="fas fa-sync"></i> Migrasi Testimoni
-                        </a>
                     </div>
                 </div>
                 

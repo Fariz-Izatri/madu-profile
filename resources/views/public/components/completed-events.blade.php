@@ -18,18 +18,16 @@
                 </div>
                 <div id="collapse{{ $event->id }}" class="panel-collapse collapse">
                     <div class="panel-body">
+                        @if($event->external_link)
                         <div class="event-hilights">
-                            <h5>Foto Highlight Pengumuman</h5>
+                            <h5>Link Terkait</h5>
+                            <div class="mt-3">
+                                <a href="{{ $event->external_link }}" class="btn btn-primary" target="_blank">
+                                    <i class="fas fa-external-link-alt mr-2"></i>Lihat Informasi Tambahan
+                                </a>
+                            </div>
                         </div>
-                        <div class="row">
-                            @if($event->images)
-                                @foreach($event->images as $image)
-                                <div class="col-md-4">
-                                    <img src="{{ $image }}" class="img-fluid" alt="event-img">
-                                </div>
-                                @endforeach
-                            @endif
-                        </div>
+                        @endif
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="event-highlight-discription">

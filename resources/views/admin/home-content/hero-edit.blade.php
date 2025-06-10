@@ -110,7 +110,7 @@
                                             <label class="custom-file-label" for="image">{{ $slide->image ? 'Ganti gambar' : 'Pilih gambar' }}</label>
                                         </div>
                                     </div>
-                                    <small class="text-muted">Format: JPG, PNG, GIF. Maks: 2MB. Biarkan kosong jika tidak ingin mengubah gambar.</small>
+                                    <small class="text-muted">Format: JPG, PNG, GIF. Maks: 2MB. Gambar akan dioptimalkan ke ukuran 1920x1080px untuk tampilan slider (rasio aspek dijaga).</small>
                                     @error('image')
                                         <span class="invalid-feedback d-block">{{ $message }}</span>
                                     @enderror

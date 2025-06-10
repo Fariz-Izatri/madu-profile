@@ -33,51 +33,59 @@
                     @endif
                     
                     <div class="table-responsive">
-                        <table class="table table-hover table-striped">
+                        <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th style="width: 50px">No.</th>
+                                    <th width="5%">No</th>
                                     <th>Judul</th>
                                     <th>Kategori</th>
                                     <th>Tanggal</th>
-                                    <th>Penulis</th>
-                                    <th>Populer</th>
-                                    <th style="width: 150px" class="text-center">Aksi</th>
+                                    <th>Link</th>
+                                    <th width="15%">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($berita as $index => $item)
-                                <tr>
-                                    <td>{{ $index + $berita->firstItem() }}</td>
-                                    <td>{{ Str::limit($item->judul, 50) }}</td>
-                                    <td>{{ $item->kategori ? $item->kategori->nama : '-' }}</td>
-                                    <td>{{ $item->tanggal->format('d M Y') }}</td>
-                                    <td>{{ $item->penulis ?? '-' }}</td>
-                                    <td>
-                                        @if($item->is_populer)
-                                            <span class="badge badge-success">Ya</span>
-                                        @else
-                                            <span class="badge badge-secondary">Tidak</span>
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="{{ route('admin.berita.edit', $item->id) }}" class="btn btn-info btn-sm">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <form action="{{ route('admin.berita.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus berita ini?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="7" class="text-center">Tidak ada data berita</td>
-                                </tr>
-                                @endforelse
+                                @if(count($berita) > 0)
+                                    @foreach($berita as $key => $item)
+                                        <tr>
+                                            <td>{{ $berita->firstItem() + $key }}</td>
+                                            <td>
+                                                <strong>{{ $item->judul }}</strong>
+                                                @if($item->is_populer)
+                                                    <span class="badge badge-success">Populer</span>
+                                                @endif
+                                                <div><small>Penulis: {{ $item->penulis ?? 'Admin' }}</small></div>
+                                            </td>
+                                            <td>{{ $item->kategori->nama ?? '-' }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</td>
+                                            <td>
+                                                @if($item->external_link)
+                                                    <a href="{{ $item->external_link }}" target="_blank" class="btn btn-sm btn-info">
+                                                        <i class="fas fa-external-link-alt"></i>
+                                                    </a>
+                                                @else
+                                                    <span class="text-muted">-</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('admin.berita.edit', $item->id) }}" class="btn btn-sm btn-primary">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <form action="{{ route('admin.berita.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus berita ini?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-danger">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="6" class="text-center">Tidak ada data berita</td>
+                                    </tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>

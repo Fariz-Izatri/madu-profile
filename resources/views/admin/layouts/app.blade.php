@@ -15,6 +15,8 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
         <!-- AdminLTE CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2.0/dist/css/adminlte.min.css">
+        <!-- Custom Image Sizes CSS -->
+        <link href="{{ asset('css/custom-image-sizes.css') }}?v={{ time() }}" rel="stylesheet">
         <!-- Custom styles for this template -->
         @stack('styles')
     </head>
@@ -49,6 +51,12 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a href="{{ route('admin.profil-sekolah.index') }}" class="nav-link {{ request()->routeIs('admin.profil-sekolah.*') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-school"></i>
+                                    <p>Profil Sekolah</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('admin.ekstrakurikuler.index') }}" class="nav-link {{ request()->routeIs('admin.ekstrakurikuler.*') ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-graduation-cap"></i>
                                     <p>Ekstrakurikuler</p>
@@ -64,6 +72,36 @@
                                 <a href="{{ route('admin.berita.index') }}" class="nav-link {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-newspaper"></i>
                                     <p>Berita</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.events.index') }}" class="nav-link {{ request()->routeIs('admin.events.*') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-bullhorn"></i>
+                                    <p>Pengumuman</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.sejarah.index') }}" class="nav-link {{ request()->routeIs('admin.sejarah.*') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-history"></i>
+                                    <p>Sejarah</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.fasilitas.index') }}" class="nav-link {{ request()->routeIs('admin.fasilitas.*') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-building"></i>
+                                    <p>Fasilitas</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.denah-sekolah.index') }}" class="nav-link {{ request()->routeIs('admin.denah-sekolah.*') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-map"></i>
+                                    <p>Denah Sekolah</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.footer-settings.index') }}" class="nav-link {{ request()->routeIs('admin.footer-settings.*') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-cog"></i>
+                                    <p>Pengaturan Footer</p>
                                 </a>
                             </li>
                         </ul>

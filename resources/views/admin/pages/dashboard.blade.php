@@ -1,91 +1,218 @@
 @extends('admin.layouts.app')
 
+@section('title', 'Dashboard')
+
 @section('content')
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Berita Box -->
-                <a href="{{ route('admin.berita.index') }}" class="block">
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-lg transition-shadow duration-300">
-                        <div class="p-6">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 bg-blue-500 rounded-md p-3">
-                                    <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
-                                    </svg>
-                                </div>
-                                <div class="ml-4">
-                                    <h3 class="text-lg font-medium text-gray-900">Berita</h3>
-                                    <p class="text-sm text-gray-500">Kelola berita sekolah</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<div class="container-fluid">
+    <!-- Statistics Section -->
+    <div class="row">
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{ App\Models\Berita::count() }}</h3>
+                    <p>Total Berita</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+                <a href="{{ route('admin.berita.index') }}" class="small-box-footer">
+                    Lihat Detail <i class="fas fa-arrow-circle-right"></i>
                 </a>
-
-                <!-- Pengumuman Box -->
-                <a href="{{ route('admin.events.index') }}" class="block">
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-lg transition-shadow duration-300">
-                        <div class="p-6">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 bg-green-500 rounded-md p-3">
-                                    <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
-                                    </svg>
-                                </div>
-                                <div class="ml-4">
-                                    <h3 class="text-lg font-medium text-gray-900">Pengumuman</h3>
-                                    <p class="text-sm text-gray-500">Kelola pengumuman sekolah</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>{{ App\Models\Event::count() }}</h3>
+                    <p>Total Pengumuman</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-bullhorn"></i>
+                </div>
+                <a href="{{ route('admin.events.index') }}" class="small-box-footer">
+                    Lihat Detail <i class="fas fa-arrow-circle-right"></i>
                 </a>
-
-                <!-- Informasi Pendaftaran Box -->
-                <a href="{{ route('admin.pendaftaran.index') }}" class="block">
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-lg transition-shadow duration-300">
-                        <div class="p-6">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 bg-yellow-500 rounded-md p-3">
-                                    <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                    </svg>
-                                </div>
-                                <div class="ml-4">
-                                    <h3 class="text-lg font-medium text-gray-900">Informasi Pendaftaran</h3>
-                                    <p class="text-sm text-gray-500">Kelola informasi pendaftaran</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3>{{ App\Models\Ekstrakurikuler::count() }}</h3>
+                    <p>Total Ekstrakurikuler</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <a href="{{ route('admin.ekstrakurikuler.index') }}" class="small-box-footer">
+                    Lihat Detail <i class="fas fa-arrow-circle-right"></i>
                 </a>
-
-                <!-- Ekstrakurikuler Box -->
-                <a href="{{ route('admin.ekstrakurikuler.index') }}" class="block">
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-lg transition-shadow duration-300">
-                        <div class="p-6">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 bg-purple-500 rounded-md p-3">
-                                    <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                                    </svg>
-                                </div>
-                                <div class="ml-4">
-                                    <h3 class="text-lg font-medium text-gray-900">Ekstrakurikuler</h3>
-                                    <p class="text-sm text-gray-500">Kelola ekstrakurikuler sekolah</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-danger">
+                <div class="inner">
+                    <h3>{{ App\Models\Fasilitas::count() }}</h3>
+                    <p>Total Fasilitas</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <a href="{{ route('admin.fasilitas.index') }}" class="small-box-footer">
+                    Lihat Detail <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
         </div>
     </div>
+    
+    <!-- Quick Access Cards -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Menu Utama</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-primary"><i class="fas fa-newspaper"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Berita</span>
+                                    <span class="info-box-number">
+                                        <a href="{{ route('admin.berita.index') }}" class="text-dark">Kelola Berita</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-success"><i class="fas fa-bullhorn"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Pengumuman</span>
+                                    <span class="info-box-number">
+                                        <a href="{{ route('admin.events.index') }}" class="text-dark">Kelola Pengumuman</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-warning"><i class="fas fa-user-plus"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Informasi Pendaftaran</span>
+                                    <span class="info-box-number">
+                                        <a href="{{ route('admin.pendaftaran.index') }}" class="text-dark">Kelola Pendaftaran</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-info"><i class="fas fa-graduation-cap"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Ekstrakurikuler</span>
+                                    <span class="info-box-number">
+                                        <a href="{{ route('admin.ekstrakurikuler.index') }}" class="text-dark">Kelola Ekstrakurikuler</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Additional Menu Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Menu Lainnya</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-indigo"><i class="fas fa-home"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Konten Halaman Depan</span>
+                                    <span class="info-box-number">
+                                        <a href="{{ route('admin.home-content.index') }}" class="text-dark">Kelola Konten</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-danger"><i class="fas fa-history"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Sejarah</span>
+                                    <span class="info-box-number">
+                                        <a href="{{ route('admin.sejarah.index') }}" class="text-dark">Kelola Sejarah</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-secondary"><i class="fas fa-building"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Fasilitas</span>
+                                    <span class="info-box-number">
+                                        <a href="{{ route('admin.fasilitas.index') }}" class="text-dark">Kelola Fasilitas</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-teal"><i class="fas fa-school"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Profil Sekolah</span>
+                                    <span class="info-box-number">
+                                        <a href="{{ route('admin.profil-sekolah.index') }}" class="text-dark">Kelola Profil</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3 col-sm-6 col-12 mt-3">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-primary"><i class="fas fa-map"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Denah Sekolah</span>
+                                    <span class="info-box-number">
+                                        <a href="{{ route('admin.denah-sekolah.index') }}" class="text-dark">Kelola Denah</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3 col-sm-6 col-12 mt-3">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-gray"><i class="fas fa-cog"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Pengaturan Footer</span>
+                                    <span class="info-box-number">
+                                        <a href="{{ route('admin.footer-settings.index') }}" class="text-dark">Kelola Footer</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

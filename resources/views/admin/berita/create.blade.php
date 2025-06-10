@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 
-                <form action="{{ route('admin.berita.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.berita.store') }}" method="POST">
                     @csrf
                     <div class="card-body">
                         @if(session('success'))
@@ -78,14 +78,9 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="gambar">Gambar</label>
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="gambar" name="gambar">
-                                    <label class="custom-file-label" for="gambar">Pilih gambar</label>
-                                </div>
-                            </div>
-                            <small class="form-text text-muted">Format: jpg, jpeg, png, gif. Maksimal 2MB.</small>
+                            <label for="external_link">Link Terkait</label>
+                            <input type="url" class="form-control" id="external_link" name="external_link" value="{{ old('external_link') }}" placeholder="https://example.com/info">
+                            <small class="form-text text-muted">Masukkan URL lengkap (termasuk http:// atau https://) ke halaman web eksternal yang terkait dengan berita ini.</small>
                         </div>
                         
                         <div class="form-group">
@@ -109,16 +104,4 @@
         </div>
     </div>
 </div>
-@endsection
-
-@push('scripts')
-<script>
-    $(function() {
-        // File input preview
-        $('.custom-file-input').on('change', function() {
-            var fileName = $(this).val().split('\\').pop();
-            $(this).next('.custom-file-label').addClass("selected").html(fileName);
-        });
-    });
-</script>
-@endpush 
+@endsection 

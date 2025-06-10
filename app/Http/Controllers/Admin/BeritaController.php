@@ -42,7 +42,7 @@ class BeritaController extends Controller
             'judul' => 'required|string|max:255',
             'konten' => 'required|string',
             'tanggal' => 'required|date',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'external_link' => 'nullable|url|max:255',
             'penulis' => 'nullable|string|max:255',
             'kategori_id' => 'nullable|exists:kategori_berita,id',
         ]);
@@ -52,35 +52,12 @@ class BeritaController extends Controller
                 'judul' => $request->judul,
                 'slug' => Str::slug($request->judul),
                 'konten' => $request->konten,
+                'external_link' => $request->external_link,
                 'tanggal' => $request->tanggal,
                 'penulis' => $request->penulis,
                 'kategori_id' => $request->kategori_id,
                 'is_populer' => $request->has('is_populer')
             ];
-            
-            // Upload gambar
-            if ($request->hasFile('gambar') && $request->file('gambar')->isValid()) {
-                try {
-                    // Ensure directory exists
-                    $directory = 'berita';
-                    if (!Storage::disk('public')->exists($directory)) {
-                        Storage::disk('public')->makeDirectory($directory);
-                        Log::info('Created directory: ' . $directory);
-                    }
-                    
-                    $path = $request->file('gambar')->store($directory, 'public');
-                    Log::info('File stored at path: ' . $path);
-                    
-                    if ($path) {
-                        $data['gambar'] = '/storage/' . $path;
-                    } else {
-                        Log::error('Failed to store berita image: null path returned');
-                    }
-                } catch (Exception $uploadEx) {
-                    Log::error('Error uploading berita image: ' . $uploadEx->getMessage());
-                    // Continue without image
-                }
-            }
             
             Berita::create($data);
             
@@ -119,7 +96,7 @@ class BeritaController extends Controller
             'judul' => 'required|string|max:255',
             'konten' => 'required|string',
             'tanggal' => 'required|date',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'external_link' => 'nullable|url|max:255',
             'penulis' => 'nullable|string|max:255',
             'kategori_id' => 'nullable|exists:kategori_berita,id',
         ]);
@@ -129,43 +106,12 @@ class BeritaController extends Controller
                 'judul' => $request->judul,
                 'slug' => Str::slug($request->judul),
                 'konten' => $request->konten,
+                'external_link' => $request->external_link,
                 'tanggal' => $request->tanggal,
                 'penulis' => $request->penulis,
                 'kategori_id' => $request->kategori_id,
                 'is_populer' => $request->has('is_populer')
             ];
-            
-            // Upload gambar baru jika ada
-            if ($request->hasFile('gambar') && $request->file('gambar')->isValid()) {
-                try {
-                    // Hapus gambar lama jika ada
-                    if ($berita->gambar && !str_starts_with($berita->gambar, 'images/')) {
-                        $oldImage = str_replace('/storage/', '', $berita->gambar);
-                        if (Storage::disk('public')->exists($oldImage)) {
-                            Storage::disk('public')->delete($oldImage);
-                        }
-                    }
-                    
-                    // Ensure directory exists
-                    $directory = 'berita';
-                    if (!Storage::disk('public')->exists($directory)) {
-                        Storage::disk('public')->makeDirectory($directory);
-                        Log::info('Created directory: ' . $directory);
-                    }
-                    
-                    $path = $request->file('gambar')->store($directory, 'public');
-                    Log::info('File stored at path: ' . $path);
-                    
-                    if ($path) {
-                        $data['gambar'] = '/storage/' . $path;
-                    } else {
-                        Log::error('Failed to store updated berita image: null path returned');
-                    }
-                } catch (Exception $uploadEx) {
-                    Log::error('Error uploading updated berita image: ' . $uploadEx->getMessage());
-                    // Continue without updating image
-                }
-            }
             
             $berita->update($data);
             
@@ -189,15 +135,6 @@ class BeritaController extends Controller
     {
         try {
             $berita = $beritum; // Mengubah nama variabel untuk kejelasan
-            
-            // Hapus gambar jika ada
-            if ($berita->gambar && !str_starts_with($berita->gambar, 'images/')) {
-                $oldImage = str_replace('/storage/', '', $berita->gambar);
-                if (Storage::disk('public')->exists($oldImage)) {
-                    Storage::disk('public')->delete($oldImage);
-                }
-            }
-            
             $berita->delete();
             
             return redirect()->route('admin.berita.index')

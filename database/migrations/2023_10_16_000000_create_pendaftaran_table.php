@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('pendaftaran', function (Blueprint $table) {
             $table->id();
             $table->string('judul');
-            $table->string('slug')->unique();
+            $table->string('slug')->nullable();
             $table->text('deskripsi');
-            $table->date('tanggal');
-            $table->string('tahun_ajaran');
-            $table->string('file_panduan')->nullable();
+            $table->date('tanggal_mulai')->nullable();
+            $table->date('tanggal_selesai')->nullable();
+            $table->string('link_pendaftaran')->nullable();
+            $table->string('kontak_pendaftaran')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

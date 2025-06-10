@@ -21,12 +21,18 @@ class DatabaseSeeder extends Seeder
         ]);
         
         $this->call([
-            EventSeeder::class,
+            KategoriBeritaSeeder::class,
             BeritaSeeder::class,
+            EventSeeder::class,
             PendaftaranSeeder::class,
             EkstrakurikulerSeeder::class,
-            TestimoniSeeder::class,
             HomeContentSeeder::class,
+            SejarahSeeder::class,
+            ProfilSekolahSeeder::class,
+            FasilitasSeeder::class,
+            FooterSettingsSeeder::class,
+            DenahSekolahSeeder::class,
+            TanyaJawabSeeder::class,
         ]);
     }
 }

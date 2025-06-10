@@ -13,7 +13,7 @@ class PendaftaranController extends Controller
     public function index()
     {
         $daftarPendaftaran = Pendaftaran::where('is_active', true)
-                                       ->orderBy('tanggal', 'desc')
+                                       ->orderBy('tanggal_mulai', 'desc')
                                        ->get();
         
         $tentang = (object) [

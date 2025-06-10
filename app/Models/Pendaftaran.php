@@ -15,14 +15,16 @@ class Pendaftaran extends Model
         'judul',
         'slug',
         'deskripsi',
-        'tanggal',
-        'tahun_ajaran',
-        'file_panduan',
+        'tanggal_mulai',
+        'tanggal_selesai',
+        'link_pendaftaran',
+        'kontak_pendaftaran',
         'is_active',
     ];
 
     protected $casts = [
-        'tanggal' => 'date',
+        'tanggal_mulai' => 'date',
+        'tanggal_selesai' => 'date',
         'is_active' => 'boolean',
     ];
 } 

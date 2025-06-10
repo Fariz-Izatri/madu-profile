@@ -1,0 +1,364 @@
+/* 
+ * HERO ENHANCEMENTS FOR RESPONSIVE DESIGN
+ * This CSS file has extremely high specificity selectors to override any conflicting styles
+ * It should be loaded AFTER all other CSS files
+ */
+
+/* Fix mobile hero section with ultra-specific selectors */
+@media (max-width: 767px) {
+    /* Force proper hero height */
+    body section .slider_img.layout_two .mobile-hero,
+    html body section .slider_img.layout_two .mobile-hero {
+        position: relative !important;
+        height: auto !important;
+        max-height: 450px !important;
+        overflow: hidden !important;
+        margin-bottom: 0 !important;
+        border-radius: 0 0 20px 20px !important;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    
+    /* Force proper image height */
+    body section .slider_img.layout_two .mobile-hero img,
+    html body section .slider_img.layout_two .mobile-hero img {
+        height: 450px !important;
+        max-height: 450px !important;
+        width: 100% !important;
+        object-fit: cover !important;
+        filter: brightness(0.85) !important;
+        transform: scale(1.05) !important;
+    }
+    
+    /* Add overlay gradient for better text readability */
+    body section .slider_img.layout_two .mobile-hero .hero-item::after,
+    html body section .slider_img.layout_two .mobile-hero .hero-item::after {
+        content: '' !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%) !important;
+        z-index: 1 !important;
+    }
+    
+    /* Force proper caption positioning - modernized style */
+    body section .slider_img.layout_two .mobile-hero .carousel-caption,
+    html body section .slider_img.layout_two .mobile-hero .carousel-caption {
+        background-color: transparent !important;
+        position: absolute !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        transform: none !important;
+        -webkit-transform: none !important;
+        -ms-transform: none !important;
+        padding: 20px !important;
+        max-height: none !important;
+        overflow-y: auto !important;
+        z-index: 2 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-end !important;
+        text-align: left !important;
+    }
+    
+    /* Mobile hero badge styling */
+    body section .slider_img.layout_two .mobile-hero .mobile-hero-badge,
+    html body section .slider_img.layout_two .mobile-hero .mobile-hero-badge {
+        display: inline-block !important;
+        background-color: rgba(203, 181, 139, 0.85) !important;
+        color: #fff !important;
+        font-size: 12px !important;
+        padding: 4px 12px !important;
+        border-radius: 30px !important;
+        margin-bottom: 15px !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.5px !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+    }
+    
+    /* Mobile title styling */
+    body section .slider_img.layout_two .mobile-hero .slider_title h1,
+    html body section .slider_img.layout_two .mobile-hero .slider_title h1 {
+        font-size: 28px !important;
+        margin-bottom: 15px !important;
+        position: relative !important;
+        padding-left: 15px !important;
+        text-align: left !important;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.5) !important;
+        border-left: 4px solid #cbb58b !important;
+    }
+    
+    /* Mobile subtitle styling */
+    body section .slider_img.layout_two .mobile-hero .slider_title h4,
+    html body section .slider_img.layout_two .mobile-hero .slider_title h4 {
+        font-size: 16px !important;
+        line-height: 1.5 !important;
+        text-align: left !important;
+        font-weight: 300 !important;
+        opacity: 0.9 !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+        margin-bottom: 20px !important;
+    }
+    
+    /* Mobile scroll hint */
+    body section .slider_img.layout_two .mobile-hero .mobile-hero-scroll-hint,
+    html body section .slider_img.layout_two .mobile-hero .mobile-hero-scroll-hint {
+        position: absolute !important;
+        bottom: 10px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        color: rgba(255,255,255,0.7) !important;
+        font-size: 12px !important;
+        text-align: center !important;
+        animation: bounce 2s infinite !important;
+    }
+    
+    body section .slider_img.layout_two .mobile-hero .mobile-hero-scroll-hint i,
+    html body section .slider_img.layout_two .mobile-hero .mobile-hero-scroll-hint i {
+        display: block !important;
+        font-size: 16px !important;
+        margin-top: 5px !important;
+    }
+    
+    /* Mobile hero decoration elements */
+    body section .slider_img.layout_two .mobile-hero .mobile-hero-decoration-circle,
+    html body section .slider_img.layout_two .mobile-hero .mobile-hero-decoration-circle {
+        position: absolute !important;
+        top: -50px !important;
+        right: -50px !important;
+        width: 150px !important;
+        height: 150px !important;
+        border-radius: 50% !important;
+        border: 3px solid rgba(203, 181, 139, 0.3) !important;
+        z-index: 1 !important;
+    }
+    
+    body section .slider_img.layout_two .mobile-hero .mobile-hero-decoration-dots,
+    html body section .slider_img.layout_two .mobile-hero .mobile-hero-decoration-dots {
+        position: absolute !important;
+        bottom: 50px !important;
+        left: -20px !important;
+        width: 80px !important;
+        height: 80px !important;
+        background-image: radial-gradient(circle, rgba(203, 181, 139, 0.3) 2px, transparent 2px) !important;
+        background-size: 15px 15px !important;
+        z-index: 1 !important;
+    }
+    
+    /* Bounce animation for scroll hint */
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateX(-50%) translateY(0);
+        }
+        40% {
+            transform: translateX(-50%) translateY(-10px);
+        }
+        60% {
+            transform: translateX(-50%) translateY(-5px);
+        }
+    }
+    
+    /* Force section proper positioning */
+    body section:not(:first-of-type),
+    html body section:not(:first-of-type) {
+        position: relative !important;
+        z-index: 2 !important;
+        margin-top: 30px !important;
+    }
+    
+    /* Force proper section spacing */
+    body .admission_cources,
+    html body .admission_cources {
+        padding-top: 40px !important;
+        margin-top: 30px !important;
+        position: relative !important;
+        z-index: 5 !important;
+    }
+    
+    /* Enhanced "Info SD Kami" section for mobile */
+    body .admission_cources h2,
+    html body .admission_cources h2 {
+        position: relative !important;
+        display: inline-block !important;
+        padding-bottom: 15px !important;
+        margin-bottom: 20px !important;
+    }
+    
+    body .admission_cources h2:after,
+    html body .admission_cources h2:after {
+        content: "" !important;
+        position: absolute !important;
+        width: 50px !important;
+        height: 3px !important;
+        background: #cbb58b !important;
+        bottom: 0 !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+    
+    /* Ensure content is visible and doesn't overlap */
+    body section .slider_img.layout_two,
+    html body section .slider_img.layout_two {
+        overflow: visible !important;
+        margin-bottom: 30px !important;
+    }
+}
+
+/* Desktop Hero Enhancements */
+@media (min-width: 768px) {
+    /* Enhance desktop slider */
+    body section .slider_img.layout_two,
+    html body section .slider_img.layout_two {
+        position: relative !important;
+        overflow: hidden !important;
+        border-radius: 0 0 30px 30px !important;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.08) !important;
+    }
+    
+    /* Add overlay to desktop slider */
+    body section .slider_img.layout_two .carousel-item::after,
+    html body section .slider_img.layout_two .carousel-item::after {
+        content: '' !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%) !important;
+        z-index: 1 !important;
+    }
+    
+    /* Better positioning for desktop captions */
+    body section .slider_img.layout_two .carousel-caption,
+    html body section .slider_img.layout_two .carousel-caption {
+        z-index: 10 !important;
+        text-align: left !important;
+        left: 10% !important;
+        right: 10% !important;
+    }
+    
+    /* Ensure proper image scale */
+    body section .slider_img.layout_two .carousel-item img,
+    html body section .slider_img.layout_two .carousel-item img {
+        width: 100% !important;
+        height: 700px !important;
+        object-fit: cover !important;
+        filter: brightness(0.9) !important;
+        min-width: 100% !important; /* Ensure full width */
+        max-width: none !important; /* Allow image to exceed container if needed */
+    }
+    
+    /* Fix for zoomed out view (75% zoom and other zoom levels) */
+    body section .slider_img.layout_two .carousel-inner,
+    html body section .slider_img.layout_two .carousel-inner {
+        width: 100% !important;
+        overflow: hidden !important;
+    }
+    
+    body section .slider_img.layout_two .carousel-item,
+    html body section .slider_img.layout_two .carousel-item {
+        width: 100% !important;
+        overflow: hidden !important;
+    }
+    
+    body section .slider_img.layout_two .hero-image-container,
+    html body section .slider_img.layout_two .hero-image-container {
+        width: 100% !important;
+        overflow: hidden !important;
+        position: relative !important;
+    }
+    
+    body section .slider_img.layout_two .hero-image-container img,
+    html body section .slider_img.layout_two .hero-image-container img {
+        width: 100vw !important; /* Use viewport width */
+        min-width: 100% !important;
+        max-width: none !important;
+        display: block !important;
+        position: relative !important;
+        left: 0 !important;
+        right: 0 !important;
+    }
+    
+    /* Carousel Controls - Fix for missing arrows */
+    body section .slider_img.layout_two .carousel-control-prev,
+    body section .slider_img.layout_two .carousel-control-next,
+    html body section .slider_img.layout_two .carousel-control-prev,
+    html body section .slider_img.layout_two .carousel-control-next {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 10% !important;
+        opacity: 1 !important;
+        z-index: 20 !important;
+    }
+    
+    body section .slider_img.layout_two .modern-control,
+    html body section .slider_img.layout_two .modern-control {
+        opacity: 0 !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    body section .slider_img.layout_two:hover .modern-control,
+    html body section .slider_img.layout_two:hover .modern-control {
+        opacity: 1 !important;
+    }
+    
+    body section .slider_img.layout_two .modern-arrow-left,
+    body section .slider_img.layout_two .modern-arrow-right,
+    html body section .slider_img.layout_two .modern-arrow-left,
+    html body section .slider_img.layout_two .modern-arrow-right {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 50px !important;
+        height: 50px !important;
+        background-color: rgba(255, 255, 255, 0.2) !important;
+        backdrop-filter: blur(5px) !important;
+        -webkit-backdrop-filter: blur(5px) !important;
+        border-radius: 50% !important;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+    }
+    
+    body section .slider_img.layout_two .modern-arrow-left:hover,
+    body section .slider_img.layout_two .modern-arrow-right:hover,
+    html body section .slider_img.layout_two .modern-arrow-left:hover,
+    html body section .slider_img.layout_two .modern-arrow-right:hover {
+        background-color: rgba(203, 181, 139, 0.8) !important;
+        transform: scale(1.1) !important;
+    }
+    
+    body section .slider_img.layout_two .modern-arrow-left i,
+    body section .slider_img.layout_two .modern-arrow-right i,
+    html body section .slider_img.layout_two .modern-arrow-left i,
+    html body section .slider_img.layout_two .modern-arrow-right i {
+        font-size: 20px !important;
+        color: white !important;
+    }
+}
+
+/* Extremely small screens */
+@media (max-width: 480px) {
+    /* Even shorter for very small screens */
+    body section .slider_img.layout_two .mobile-hero,
+    html body section .slider_img.layout_two .mobile-hero {
+        max-height: 400px !important;
+    }
+    
+    body section .slider_img.layout_two .mobile-hero img,
+    html body section .slider_img.layout_two .mobile-hero img {
+        height: 400px !important;
+        max-height: 400px !important;
+    }
+    
+    /* Smaller title on very small screens */
+    body section .slider_img.layout_two .mobile-hero .slider_title h1,
+    html body section .slider_img.layout_two .mobile-hero .slider_title h1 {
+        font-size: 24px !important;
+    }
+} 

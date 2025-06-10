@@ -22,6 +22,14 @@
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
     <!-- Main CSS -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <!-- Custom Image Sizes CSS -->
+    <link href="{{ asset('css/custom-image-sizes.css') }}?v={{ time() }}" rel="stylesheet">
+    <!-- Mobile Fixes CSS - Load last to override existing styles -->
+    <link href="{{ asset('css/mobile-fixes.css') }}?v={{ time() }}" rel="stylesheet">
+    <!-- Spacing Fixes CSS - Highest priority -->
+    <link href="{{ asset('css/spacing-fix.css') }}?v={{ time() }}" rel="stylesheet">
+    <!-- Emergency mobile hero fix - Absolute highest priority -->
+    <link href="{{ asset('css/mobile-hero-fix.css') }}?v={{ time() }}" rel="stylesheet">
     
     @stack('styles')
 </head>

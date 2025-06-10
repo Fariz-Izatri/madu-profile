@@ -88,29 +88,53 @@ class HomeContentController extends Controller
                 try {
                     // Delete old image if exists
                     if ($slide->image && !str_starts_with($slide->image, 'images/')) {
-                        $oldImage = str_replace('/storage/', '', $slide->image);
-                        if (Storage::disk('public')->exists($oldImage)) {
-                            Storage::disk('public')->delete($oldImage);
+                        $oldImagePath = public_path(ltrim($slide->image, '/'));
+                        if (file_exists($oldImagePath)) {
+                            unlink($oldImagePath);
+                            Log::info('Old image deleted: ' . $oldImagePath);
                         }
                     }
                     
-                    // Ensure directory exists
-                    $directory = 'homepage/hero';
-                    if (!Storage::disk('public')->exists($directory)) {
-                        Storage::disk('public')->makeDirectory($directory);
-                        Log::info('Created directory: ' . $directory);
+                    // Try direct file save approach with image compression
+                    $uploadedFile = $request->file('image');
+                    $fileExtension = $uploadedFile->getClientOriginalExtension();
+                    $fileName = 'hero_' . time() . '.' . $fileExtension;
+                    
+                    // Check if public/storage directory exists
+                    $storageDir = public_path('storage');
+                    $targetDir = $storageDir . '/homepage/hero';
+                    
+                    Log::info('Storage directory: ' . $storageDir . ' exists: ' . (file_exists($storageDir) ? 'Yes' : 'No'));
+                    
+                    // Create directory if it doesn't exist
+                    if (!file_exists($targetDir)) {
+                        mkdir($targetDir, 0755, true);
+                        Log::info('Created directory: ' . $targetDir);
                     }
                     
-                    $path = $request->file('image')->store($directory, 'public');
-                    Log::info('File stored at path: ' . $path);
+                    $targetPath = $targetDir . '/' . $fileName;
+                    Log::info('Target path: ' . $targetPath);
                     
-                    if ($path) {
-                        $data['image'] = '/storage/' . $path;
+                    // Simple file copy
+                    if (copy($uploadedFile->getPathname(), $targetPath)) {
+                        Log::info('File copied successfully to: ' . $targetPath);
+                        $data['image'] = '/storage/homepage/hero/' . $fileName;
                     } else {
-                        Log::error('Failed to store hero image: null path returned');
+                        Log::error('Failed to copy file to: ' . $targetPath);
+                        
+                        // Try an alternative approach
+                        $fileContent = file_get_contents($uploadedFile->getPathname());
+                        if (file_put_contents($targetPath, $fileContent)) {
+                            Log::info('File saved with file_put_contents to: ' . $targetPath);
+                            $data['image'] = '/storage/homepage/hero/' . $fileName;
+                        } else {
+                            Log::error('Failed to save file with file_put_contents to: ' . $targetPath);
+                            Log::error('Error: ' . error_get_last()['message']);
+                        }
                     }
-                } catch (\Exception $uploadEx) {
+                } catch (Exception $uploadEx) {
                     Log::error('Error uploading hero image: ' . $uploadEx->getMessage());
+                    Log::error('Exception trace: ' . $uploadEx->getTraceAsString());
                     // Continue without updating image
                 }
             }
@@ -169,29 +193,76 @@ class HomeContentController extends Controller
                 try {
                     // Delete old image if exists and not a default image
                     if ($info->image && !str_starts_with($info->image, 'images/')) {
-                        $oldImage = str_replace('/storage/', '', $info->image);
-                        if (Storage::disk('public')->exists($oldImage)) {
-                            Storage::disk('public')->delete($oldImage);
+                        $oldImagePath = public_path(ltrim($info->image, '/'));
+                        if (file_exists($oldImagePath)) {
+                            unlink($oldImagePath);
+                            Log::info('Old image deleted: ' . $oldImagePath);
                         }
                     }
                     
-                    // Ensure directory exists
-                    $directory = 'homepage/info';
-                    if (!Storage::disk('public')->exists($directory)) {
-                        Storage::disk('public')->makeDirectory($directory);
-                        Log::info('Created directory: ' . $directory);
+                    // Try direct file save approach with image compression
+                    $uploadedFile = $request->file('image');
+                    $fileExtension = $uploadedFile->getClientOriginalExtension();
+                    $fileName = 'info_' . time() . '.' . $fileExtension;
+                    
+                    // Check if public/storage directory exists
+                    $storageDir = public_path('storage');
+                    $targetDir = $storageDir . '/homepage/info';
+                    
+                    Log::info('Storage directory: ' . $storageDir . ' exists: ' . (file_exists($storageDir) ? 'Yes' : 'No'));
+                    
+                    // Create directory if it doesn't exist
+                    if (!file_exists($targetDir)) {
+                        mkdir($targetDir, 0755, true);
+                        Log::info('Created directory: ' . $targetDir);
                     }
                     
-                    $path = $request->file('image')->store($directory, 'public');
-                    Log::info('File stored at path: ' . $path);
+                    $targetPath = $targetDir . '/' . $fileName;
+                    Log::info('Target path: ' . $targetPath);
                     
-                    if ($path) {
-                        $data['image'] = '/storage/' . $path;
-                    } else {
-                        Log::error('Failed to store info image: null path returned');
+                    // Process and compress the image using Intervention Image v3
+                    try {
+                        // Create image manager instance with desired driver
+                        $manager = new ImageManager(new Driver());
+                        
+                        // Create image instance
+                        $image = $manager->read($uploadedFile->getRealPath());
+                        
+                        // Resize the image to max dimensions while preserving aspect ratio
+                        $image->resize(800, 600, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        });
+                        
+                        // Save the processed image with compression
+                        $image->save($targetPath, 80);
+                        
+                        Log::info('Image processed and saved successfully to: ' . $targetPath);
+                        $data['image'] = '/storage/homepage/info/' . $fileName;
+                    } catch (\Exception $interventionEx) {
+                        Log::error('Error processing image with Intervention: ' . $interventionEx->getMessage());
+                        
+                        // Fallback to direct copy if Intervention Image fails
+                        if (copy($uploadedFile->getPathname(), $targetPath)) {
+                            Log::info('File copied successfully (fallback) to: ' . $targetPath);
+                            $data['image'] = '/storage/homepage/info/' . $fileName;
+                        } else {
+                            Log::error('Failed to copy file to: ' . $targetPath);
+                            
+                            // Try an alternative approach
+                            $fileContent = file_get_contents($uploadedFile->getPathname());
+                            if (file_put_contents($targetPath, $fileContent)) {
+                                Log::info('File saved with file_put_contents to: ' . $targetPath);
+                                $data['image'] = '/storage/homepage/info/' . $fileName;
+                            } else {
+                                Log::error('Failed to save file with file_put_contents to: ' . $targetPath);
+                                Log::error('Error: ' . error_get_last()['message']);
+                            }
+                        }
                     }
-                } catch (\Exception $uploadEx) {
+                } catch (Exception $uploadEx) {
                     Log::error('Error uploading info image: ' . $uploadEx->getMessage());
+                    Log::error('Exception trace: ' . $uploadEx->getTraceAsString());
                     // Continue without updating image
                 }
             }
@@ -208,6 +279,7 @@ class HomeContentController extends Controller
         } catch (Exception $e) {
             Log::error('Error updating info section: ' . $e->getMessage());
             Log::error($e->getTraceAsString());
+            
             return redirect()->back()
                 ->withInput()
                 ->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
@@ -415,26 +487,37 @@ class HomeContentController extends Controller
             // Handle image upload
             if ($request->hasFile('image')) {
                 try {
-                    // Ensure directory exists
-                    $directory = 'homepage/testimonial';
-                    $storage = Storage::disk('public');
+                    // Try direct file save approach with image compression
+                    $uploadedFile = $request->file('image');
+                    $fileExtension = $uploadedFile->getClientOriginalExtension();
+                    $fileName = 'testimonial_' . time() . '.' . $fileExtension;
                     
-                    if (!$storage->exists($directory)) {
-                        $storage->makeDirectory($directory);
-                        Log::info('Created directory: ' . $directory);
+                    // Check if public/storage directory exists
+                    $storageDir = public_path('storage');
+                    $targetDir = $storageDir . '/homepage/testimonial';
+                    
+                    Log::info('Storage directory: ' . $storageDir . ' exists: ' . (file_exists($storageDir) ? 'Yes' : 'No'));
+                    
+                    // Create directory if it doesn't exist
+                    if (!file_exists($targetDir)) {
+                        mkdir($targetDir, 0755, true);
+                        Log::info('Created directory: ' . $targetDir);
                     }
                     
-                    $file = $request->file('image');
-                    $path = $file->store($directory, 'public');
+                    $targetPath = $targetDir . '/' . $fileName;
+                    Log::info('Target path: ' . $targetPath);
                     
-                    if ($path) {
-                        $data['image'] = '/storage/' . $path;
-                        Log::info('Stored image at: ' . $data['image']);
+                    // Simple file copy
+                    if (copy($uploadedFile->getPathname(), $targetPath)) {
+                        Log::info('File copied successfully to: ' . $targetPath);
+                        $data['image'] = '/storage/homepage/testimonial/' . $fileName;
                     } else {
-                        Log::error('File path is empty');
+                        Log::error('Failed to copy file to: ' . $targetPath);
+                        Log::error('Error: ' . error_get_last()['message']);
                     }
                 } catch (Exception $e) {
                     Log::error('Error uploading file: ' . $e->getMessage());
+                    Log::error('Exception trace: ' . $e->getTraceAsString());
                     // Continue without image
                 }
             }
@@ -503,32 +586,53 @@ class HomeContentController extends Controller
                 try {
                     // Delete old image if exists
                     if ($testimonial->image && !str_starts_with($testimonial->image, 'images/')) {
-                        $oldImage = str_replace('/storage/', '', $testimonial->image);
-                        if (Storage::disk('public')->exists($oldImage)) {
-                            Storage::disk('public')->delete($oldImage);
+                        $oldImagePath = public_path(ltrim($testimonial->image, '/'));
+                        if (file_exists($oldImagePath)) {
+                            unlink($oldImagePath);
+                            Log::info('Old image deleted: ' . $oldImagePath);
                         }
                     }
                     
-                    // Ensure directory exists
-                    $directory = 'homepage/testimonial';
-                    $storage = Storage::disk('public');
+                    // Try direct file save approach with image compression
+                    $uploadedFile = $request->file('image');
+                    $fileExtension = $uploadedFile->getClientOriginalExtension();
+                    $fileName = 'testimonial_' . time() . '.' . $fileExtension;
                     
-                    if (!$storage->exists($directory)) {
-                        $storage->makeDirectory($directory);
-                        Log::info('Created directory: ' . $directory);
+                    // Check if public/storage directory exists
+                    $storageDir = public_path('storage');
+                    $targetDir = $storageDir . '/homepage/testimonial';
+                    
+                    Log::info('Storage directory: ' . $storageDir . ' exists: ' . (file_exists($storageDir) ? 'Yes' : 'No'));
+                    
+                    // Create directory if it doesn't exist
+                    if (!file_exists($targetDir)) {
+                        mkdir($targetDir, 0755, true);
+                        Log::info('Created directory: ' . $targetDir);
                     }
                     
-                    $file = $request->file('image');
-                    $path = $file->store($directory, 'public');
+                    $targetPath = $targetDir . '/' . $fileName;
+                    Log::info('Target path: ' . $targetPath);
                     
-                    if ($path) {
-                        $data['image'] = '/storage/' . $path;
-                        Log::info('Stored updated image at: ' . $data['image']);
+                    // Simple file copy
+                    if (copy($uploadedFile->getPathname(), $targetPath)) {
+                        Log::info('File copied successfully to: ' . $targetPath);
+                        $data['image'] = '/storage/homepage/testimonial/' . $fileName;
                     } else {
-                        Log::error('Update file path is empty');
+                        Log::error('Failed to copy file to: ' . $targetPath);
+                        
+                        // Try an alternative approach
+                        $fileContent = file_get_contents($uploadedFile->getPathname());
+                        if (file_put_contents($targetPath, $fileContent)) {
+                            Log::info('File saved with file_put_contents to: ' . $targetPath);
+                            $data['image'] = '/storage/homepage/testimonial/' . $fileName;
+                        } else {
+                            Log::error('Failed to save file with file_put_contents to: ' . $targetPath);
+                            Log::error('Error: ' . error_get_last()['message']);
+                        }
                     }
                 } catch (Exception $e) {
                     Log::error('Error updating file: ' . $e->getMessage());
+                    Log::error('Exception trace: ' . $e->getTraceAsString());
                     // Continue without updating image
                 }
             }
@@ -541,6 +645,7 @@ class HomeContentController extends Controller
         } catch (Exception $e) {
             Log::error('Error updating testimonial: ' . $e->getMessage());
             Log::error($e->getTraceAsString());
+            
             return redirect()->back()
                 ->withInput()
                 ->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
@@ -577,55 +682,6 @@ class HomeContentController extends Controller
                 
         } catch (Exception $e) {
             Log::error('Error deleting testimonial: ' . $e->getMessage());
-            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
-        }
-    }
-    
-    /**
-     * Migration method: Move testimonials from old table to home_contents
-     * Can be used to migrate existing data from testimoni table to home_contents
-     */
-    public function migrateTestimonials()
-    {
-        try {
-            // Check if Testimoni model/table exists
-            if (!class_exists('App\Models\Testimoni')) {
-                return redirect()->back()->with('error', 'Model Testimoni tidak ditemukan!');
-            }
-            
-            // Get all testimonials from old table
-            $oldTestimonials = DB::table('testimoni')->get();
-            $count = 0;
-            
-            foreach ($oldTestimonials as $index => $old) {
-                $exists = HomeContent::where('section', 'testimonial')
-                                  ->where('title', $old->pesan)
-                                  ->where('author_name', $old->nama)
-                                  ->first();
-                
-                // Skip if already migrated
-                if ($exists) {
-                    continue;
-                }
-                
-                // Create new record in home_contents
-                HomeContent::create([
-                    'section' => 'testimonial',
-                    'title' => $old->pesan, // testimonial message
-                    'author_name' => $old->nama,
-                    'image' => $old->gambar,
-                    'is_active' => $old->is_active,
-                    'order' => $index + 1
-                ]);
-                
-                $count++;
-            }
-            
-            return redirect()->route('admin.home-content.testimonial')
-                ->with('success', $count . ' testimoni berhasil dimigrasikan!');
-                
-        } catch (Exception $e) {
-            Log::error('Error migrating testimonials: ' . $e->getMessage());
             return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
         }
     }

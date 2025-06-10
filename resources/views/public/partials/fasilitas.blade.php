@@ -3,103 +3,36 @@
         <div class="row">
             <div class="col-md-12">
                 <h2>Fasilitas Sekolah</h2>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                </p>
+                <p>Berikut adalah berbagai fasilitas yang tersedia di SD Negeri Medokan Ayu II untuk mendukung kegiatan belajar mengajar dan pengembangan siswa.</p>
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-xs-12 col-md-6 col-lg-4">
-                <div class="campus-img_block">
-                    <img src="images/campus/campus-img_01.jpg" class="img-fluid" alt="campus-img">
-                    <div class="campus-title-block">
-                        <h4>Arts and Culture</h4>
+            @forelse($daftarFasilitas as $fasilitas)
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                    <div class="campus-img_block">
+                        @if($fasilitas->gambar && file_exists(public_path(ltrim($fasilitas->gambar, '/'))))
+                            <img src="{{ $fasilitas->gambar }}" class="img-fluid" alt="{{ $fasilitas->nama }}">
+                        @else
+                            <img src="{{ asset('images/campus/campus-img_01.jpg') }}" class="img-fluid" alt="{{ $fasilitas->nama }}">
+                        @endif
+                        <div class="campus-title-block">
+                            <h4>{{ $fasilitas->nama }}</h4>
+                        </div>
+                    </div>
+                    <div class="campus-img_text">
+                        <p>{{ Str::limit($fasilitas->deskripsi, 150) }}</p>
+                        @if(strlen($fasilitas->deskripsi) > 150)
+                            <a href="{{ route('fasilitas.detail', $fasilitas->id) }}" class="btn btn-sm btn-primary mt-2">
+                                <i class="fa fa-info-circle"></i> Detail
+                            </a>
+                        @endif
                     </div>
                 </div>
-                <div class="campus-img_text">
-                    <p>Continually strategize extensive channels vis-a-vis transparent e-services. Seamlessly embrace unique methodologies</p>
+            @empty
+                <div class="col-md-12 text-center">
+                    <p>Belum ada data fasilitas.</p>
                 </div>
-            </div>
-            <div class="col-xs-12 col-md-6 col-lg-4">
-                <div class="campus-img_block">
-                    <img src="images/campus/campus-img_02.jpg" class="img-fluid" alt="campus-img">
-                    <div class="campus-title-block">
-                        <h4>Physical</h4>
-                    </div>
-                </div>
-                <div class="campus-img_text">
-                    <p> Seamlessly embrace unique methodologies after front-end benefits. Credibly drive value-added methods of empowerment</p>
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-6 col-lg-4">
-                <div class="campus-img_block">
-                    <img src="images/campus/campus-img_03.jpg" class="img-fluid" alt="campus-img">
-                    <div class="campus-title-block">
-                        <h4>Science</h4>
-                    </div>
-                </div>
-                <div class="campus-img_text">
-                    <p>Strategize extensive channels vis-a-vis transparent e-services. Seamlessly embrace unique methodologies after front-end</p>
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-6 col-lg-4">
-                <div class="campus-img_block">
-                    <img src="images/campus/campus-img_04.jpg" class="img-fluid" alt="campus-img">
-                    <div class="campus-title-block">
-                        <h4>Health & Wellness</h4>
-                    </div>
-                </div>
-                <div class="campus-img_text">
-                    <p>Credibly drive value-added methods of empowerment without highly efficient.Continually strategize extensive channels</p>
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-6 col-lg-4">
-                <div class="campus-img_block">
-                    <img src="images/campus/campus-img_05.jpg" class="img-fluid" alt="campus-img">
-                    <div class="campus-title-block">
-                        <h4>Students IT service</h4>
-                    </div>
-                </div>
-                <div class="campus-img_text">
-                    <p>Continually strategize extensive channels vis-a-vis transparent e-services. Seamlessly embrace unique methodologies</p>
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-6 col-lg-4">
-                <div class="campus-img_block">
-                    <img src="images/campus/campus-img_06.jpg" class="img-fluid" alt="campus-img">
-                    <div class="campus-title-block">
-                        <h4>Food </h4>
-                    </div>
-                </div>
-                <div class="campus-img_text">
-                    <p>Seamlessly embrace unique methodologies after front-end benefits. Credibly drive value-added methods of empowerment</p>
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-6 col-lg-4">
-                <div class="campus-img_block">
-                    <img src="images/campus/campus-img_07.jpg" class="img-fluid" alt="campus-img">
-                    <div class="campus-title-block">
-                        <h4>Students Club</h4>
-                    </div>
-                </div>
-                <div class="campus-img_text">
-                    <p>Continually strategize extensive channels vis-a-vis transparent e-services. Credibly drive value-added methods</p>
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-6 col-lg-4">
-                <div class="campus-img_block">
-                    <img src="images/campus/campus-img_08.jpg" class="img-fluid" alt="campus-img">
-                    <div class="campus-title-block">
-                        <h4>Charity Club</h4>
-                    </div>
-                </div>
-                <div class="campus-img_text">
-                    <p>Continually strategize extensive channels vis-a-vis transparent e-services. Seamlessly embrace unique methodologies</p>
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-6 col-lg-4"></div>
-            <div class="col-md-12 text-center">
-                <a href="#" class="btn btn-default btn-courses">all campus life</a>
-            </div>
+            @endforelse
         </div>
     </div>
 </section>
