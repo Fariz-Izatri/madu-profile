@@ -21,11 +21,13 @@ class ProfilSekolah extends Model
         'email',
         'website',
         'daftar_guru',
+        'daftar_staff',
         'is_active',
     ];
     
     protected $casts = [
         'is_active' => 'boolean',
         'daftar_guru' => 'array',
+        'daftar_staff' => 'array',
     ];
 }

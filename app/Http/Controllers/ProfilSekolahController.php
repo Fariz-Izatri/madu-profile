@@ -42,7 +42,8 @@ class ProfilSekolahController extends Controller
                 'telepon' => 'Informasi telepon belum tersedia.',
                 'email' => 'Informasi email belum tersedia.',
                 'website' => 'Informasi website belum tersedia.',
-                'daftar_guru' => []
+                'daftar_guru' => [],
+                'daftar_staff' => []
             ];
         }
         

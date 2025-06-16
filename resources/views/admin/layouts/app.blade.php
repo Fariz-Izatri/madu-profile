@@ -7,6 +7,9 @@
 
         <title>@yield('title', config('app.name', 'Admin Panel'))</title>
 
+        <!-- Favicon -->
+        <link rel="icon" href="https://satriadata.kemdikbud.go.id/wp-content/uploads/2020/08/Logo-kemendikbud.png" type="image/png">
+
         <!-- Google Font: Source Sans Pro -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
         <!-- Font Awesome -->

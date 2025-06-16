@@ -60,6 +60,7 @@
     </div>
 </div>
     @include('public.partials.dataGuru')
+    @include('public.partials.dataStaff')
 @endsection
 
 @push('styles')

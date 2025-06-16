@@ -82,6 +82,8 @@ Route::middleware('auth')->group(function () {
     Route::put('admin/profil-sekolah/{profilSekolah}', [AdminProfilSekolahController::class, 'update'])->name('admin.profil-sekolah.update');
     Route::get('admin/profil-sekolah/{profilSekolah}/teachers', [AdminProfilSekolahController::class, 'teachers'])->name('admin.profil-sekolah.teachers');
     Route::put('admin/profil-sekolah/{profilSekolah}/teachers', [AdminProfilSekolahController::class, 'updateTeachers'])->name('admin.profil-sekolah.update-teachers');
+    Route::get('admin/profil-sekolah/{profilSekolah}/staff', [AdminProfilSekolahController::class, 'staff'])->name('admin.profil-sekolah.staff');
+    Route::put('admin/profil-sekolah/{profilSekolah}/staff', [AdminProfilSekolahController::class, 'updateStaff'])->name('admin.profil-sekolah.update-staff');
     
     // Admin Denah Sekolah Routes
     Route::get('admin/denah-sekolah', [AdminDenahSekolahController::class, 'index'])->name('admin.denah-sekolah.index');

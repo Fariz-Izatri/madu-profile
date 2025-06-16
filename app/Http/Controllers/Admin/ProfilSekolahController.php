@@ -182,4 +182,66 @@ class ProfilSekolahController extends Controller
                 ->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
         }
     }
+    
+    /**
+     * Manage staff data
+     */
+    public function staff(ProfilSekolah $profilSekolah)
+    {
+        return view('admin.profil-sekolah.staff', compact('profilSekolah'));
+    }
+    
+    /**
+     * Update staff data
+     */
+    public function updateStaff(Request $request, ProfilSekolah $profilSekolah)
+    {
+        $request->validate([
+            'staff' => 'nullable|array',
+            'staff.*.nama' => 'required|string|max:255',
+            'staff.*.jabatan' => 'nullable|string|max:255',
+            'staff.*.foto' => 'nullable|string',
+        ]);
+        
+        try {
+            $staffData = $request->staff ?? [];
+            
+            // Process file uploads if any
+            foreach ($staffData as $index => $staff) {
+                if (isset($request->file('staff_foto')[$index]) && $request->file('staff_foto')[$index]) {
+                    $file = $request->file('staff_foto')[$index];
+                    
+                    if ($file->isValid()) {
+                        $fileName = 'staff_' . time() . '_' . $index . '.' . $file->getClientOriginalExtension();
+                        $targetDir = public_path('storage/profil/staff');
+                        
+                        if (!file_exists($targetDir)) {
+                            mkdir($targetDir, 0755, true);
+                        }
+                        
+                        $file->move($targetDir, $fileName);
+                        
+                        // Only override URL if there's no URL or the upload is successful
+                        if (empty($staffData[$index]['foto']) || $file) {
+                            $staffData[$index]['foto'] = '/storage/profil/staff/' . $fileName;
+                        }
+                    }
+                }
+            }
+            
+            $profilSekolah->update([
+                'daftar_staff' => $staffData,
+            ]);
+            
+            return redirect()->route('admin.profil-sekolah.staff', $profilSekolah->id)
+                ->with('success', 'Data staff berhasil diperbarui!');
+                
+        } catch (Exception $e) {
+            Log::error('Error updating staff data: ' . $e->getMessage());
+            
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
+        }
+    }
 }

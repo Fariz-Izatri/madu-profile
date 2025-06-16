@@ -1,6 +1,6 @@
 @extends('public.layouts.main')
 
-@section('title', 'Home - Unisco - Education Website')
+@section('title', 'SDN Medokan Ayu II')
 
 @section('header')
     @include('public.partials.hero', ['heroSlides' => $heroSlides])

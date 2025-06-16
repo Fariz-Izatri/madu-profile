@@ -22,6 +22,11 @@
                                 <i class="fas fa-chalkboard-teacher mr-1"></i> Data Guru
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="staff-tab" href="{{ route('admin.profil-sekolah.staff', $profilSekolah->id) }}" role="tab">
+                                <i class="fas fa-user-tie mr-1"></i> Data Staff
+                            </a>
+                        </li>
                     </ul>
                     
                     <div class="tab-content" id="profileTabContent">
