@@ -20,6 +20,7 @@ class Berita extends Model
         'penulis',
         'is_populer',
         'kategori_id',
+        'gambar'
     ];
 
     protected $casts = [

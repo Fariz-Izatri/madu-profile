@@ -29,37 +29,43 @@ class Event extends Model
     ];
 
     /**
-     * Scope a query to only include upcoming events.
+     * Get the combined event datetime (date + time).
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \Carbon\Carbon
      */
-    public function scopeUpcoming($query)
+    public function getEventDateTimeAttribute()
     {
-        return $query->where('event_date', '>=', Carbon::today())
-                    ->orderBy('event_date', 'asc'); // Closest dates first
+        // If event_time is null, default to 00:00:00
+        $time = $this->event_time ?? '00:00:00';
+        return $this->event_date->copy()->setTimeFromTimeString($time);
     }
 
     /**
-     * Scope a query to only include completed events.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * Scope a query to only include upcoming events (date+time >= now).
+     */
+    public function scopeUpcoming($query)
+    {
+        return $query->whereRaw("STR_TO_DATE(CONCAT(event_date, ' ', IFNULL(event_time, '00:00:00')), '%Y-%m-%d %H:%i:%s') >= ?", [now()])
+                    ->orderBy('event_date', 'asc');
+    }
+
+    /**
+     * Scope a query to only include completed events (date+time < now).
      */
     public function scopeCompleted($query)
     {
-        return $query->where('event_date', '<', Carbon::today())
+        return $query->whereRaw("STR_TO_DATE(CONCAT(event_date, ' ', IFNULL(event_time, '00:00:00')), '%Y-%m-%d %H:%i:%s') < ?", [now()])
                     ->orderBy('event_date', 'desc');
     }
-    
+
     /**
-     * Get the is_completed attribute.
-     * Events are automatically considered completed if their date is in the past.
+     * Get the is_completed attribute (date+time < now).
      *
      * @return bool
      */
     public function getIsCompletedAttribute()
     {
-        return $this->event_date < Carbon::today();
+        $time = $this->event_time ?? '00:00:00';
+        return $this->event_date->copy()->setTimeFromTimeString($time)->lt(now());
     }
 } 

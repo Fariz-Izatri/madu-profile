@@ -3,6 +3,27 @@
 * This file contains only targeted overrides for specific mobile issues
 */
 
+/* execption - home page title size */
+.nav-brand2 h2 {
+    font-size: 23px;
+  }
+
+/* Navbar logo styling */
+.nav-brand2 img {
+    height: 37px; /* Golden ratio: 23px × 1.618 = 37.2px */
+    width: auto;
+    margin-right: 8px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+/* Prevent navbar brand from wrapping */
+.nav-brand2 {
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+}
+
 /* Mobile navbar fixes */
 @media (max-width: 767px) {
     /* Reduce navbar height */
@@ -14,13 +35,25 @@
     .nav-brand2 {
         float: left;
         margin-left: 15px;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
     }
     
     .nav-brand2 h2 {
-        font-size: 14px;
+        font-size: 20px;
         margin: 10px 0;
         display: inline-block;
-        max-width: 75%;
+        /* Removed max-width: 75%; to prevent wrapping */
+    }
+    
+    /* Mobile logo styling */
+    .nav-brand2 img {
+        height: 32px; /* 1.6x ratio with 20px text: 20px × 1.6 = 32px */
+        width: auto;
+        margin-right: 6px;
+        vertical-align: middle;
+        display: inline-block;
     }
     
     /* Move hamburger to right side */
@@ -171,8 +204,23 @@
 /* Extra small device fixes */
 @media (max-width: 480px) {
     .nav-brand2 h2 {
-        font-size: 12px;
-        max-width: 70%;
+        font-size: 18px;
+        /* Removed max-width: 70%; to prevent wrapping */
+    }
+    
+    .nav-brand2 {
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+    }
+    
+    /* Extra small device logo styling */
+    .nav-brand2 img {
+        height: 28px; /* 1.56x ratio with 18px text: 18px × 1.56 = 28px */
+        width: auto;
+        margin-right: 5px;
+        vertical-align: middle;
+        display: inline-block;
     }
     
     /* More spacing for tiny screens */

@@ -4,9 +4,9 @@
 @endphp
 
 <section>
-  <div class="slider_img layout_two">
-      <!-- Desktop Carousel - Enhanced with modern UI -->
-      <div id="homeCarousel" class="carousel slide d-none d-md-block" data-ride="carousel" data-interval="7000">
+  <div class="slider_img layout_two loading">
+      <!-- Desktop Carousel - Enhanced with crossfade transition -->
+      <div id="homeCarousel" class="carousel slide carousel-fade d-none d-md-block" data-ride="carousel" data-interval="7000">
           <ol class="carousel-indicators">
               @foreach($heroSlides as $index => $slide)
                   <li data-target="#homeCarousel" data-slide-to="{{ $index }}" class="{{ $index === 0 ? 'active' : '' }}"></li>
@@ -22,9 +22,9 @@
                       <!-- Image with overlay -->
                       <div class="hero-image-container">
                           @if(Str::startsWith($slide->image, 'images/'))
-                              <img class="d-block carousel-image" src="{{ asset($slide->image) }}" alt="Slide {{ $index + 1 }}">
+                              <img class="d-block carousel-image" src="{{ asset($slide->image) }}" alt="Slide {{ $index + 1 }}" loading="{{ $index === 0 ? 'eager' : 'lazy' }}" decoding="async">
                           @else
-                              <img class="d-block carousel-image" src="{{ $slide->image }}" alt="Slide {{ $index + 1 }}">
+                              <img class="d-block carousel-image" src="{{ $slide->image }}" alt="Slide {{ $index + 1 }}" loading="{{ $index === 0 ? 'eager' : 'lazy' }}" decoding="async">
                           @endif
                       </div>
                       
@@ -79,9 +79,9 @@
               
               <!-- Main hero image -->
               @if(Str::startsWith($firstSlide->image, 'images/'))
-                  <img class="d-block w-100" src="{{ asset($firstSlide->image) }}" alt="Mobile Hero">
+                  <img class="d-block w-100" src="{{ asset($firstSlide->image) }}" alt="Mobile Hero" loading="eager" decoding="async">
               @else
-                  <img class="d-block w-100" src="{{ $firstSlide->image }}" alt="Mobile Hero">
+                  <img class="d-block w-100" src="{{ $firstSlide->image }}" alt="Mobile Hero" loading="eager" decoding="async">
               @endif
               
               <div class="carousel-caption">
@@ -118,12 +118,12 @@
       @endif
       
       <!-- Preload images to prevent flash during transitions -->
-      <div style="display: none;">
-          @foreach($heroSlides as $slide)
+      <div style="display: none;" class="preload-container">
+          @foreach($heroSlides as $index => $slide)
               @if(Str::startsWith($slide->image, 'images/'))
-                  <img src="{{ asset($slide->image) }}" alt="Preload">
+                  <img src="{{ asset($slide->image) }}" alt="Preload {{ $index + 1 }}" data-slide-index="{{ $index }}" class="preload-image">
               @else
-                  <img src="{{ $slide->image }}" alt="Preload">
+                  <img src="{{ $slide->image }}" alt="Preload {{ $index + 1 }}" data-slide-index="{{ $index }}" class="preload-image">
               @endif
           @endforeach
       </div>
@@ -134,24 +134,120 @@
 <style>
     /* Enhanced hero styling for both mobile and desktop */
     
-    /* Fix for transition flash - use transparent background */
-    #homeCarousel, 
-    .carousel-inner, 
-    .carousel-item {
-        background: transparent !important;
+    /* Loading state */
+    .slider_img.loading {
+        opacity: 0.5;
     }
     
-    /* Ensure images cover the entire area */
+    .slider_img.loading::after {
+        content: 'Loading images...';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 18px;
+        z-index: 1000;
+    }
+    
+    /* Fix black screen issue during carousel transitions - with contained scope */
+    #homeCarousel {
+        background: transparent !important;
+        /* Prevent layout shifts during transitions - but only for carousel */
+        contain: layout style paint !important;
+        will-change: auto !important;
+        /* Isolate carousel positioning */
+        position: relative !important;
+        z-index: 1 !important;
+    }
+    
+    .carousel-inner {
+        background: transparent !important;
+        position: relative !important;
+        /* Prevent content jumping during transitions - scoped to carousel */
+        contain: layout style paint !important;
+    }
+    
+    /* Override Bootstrap's default slide transition with crossfade */
+    .carousel-fade .carousel-item {
+        opacity: 0;
+        transition: opacity 0.6s ease-in-out;
+        transform: none !important;
+        background: transparent !important;
+        /* Prevent layout shifts - but only within carousel */
+        contain: style paint !important; /* Removed layout containment */
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
+    
+    .carousel-fade .carousel-item.active,
+    .carousel-fade .carousel-item-next.carousel-item-left,
+    .carousel-fade .carousel-item-prev.carousel-item-right {
+        opacity: 1;
+        transform: none !important;
+        position: relative !important;
+    }
+    
+    .carousel-fade .carousel-item-left.active,
+    .carousel-fade .carousel-item-right.active {
+        opacity: 0;
+        transform: none !important;
+        position: absolute !important;
+    }
+    
+    .carousel-fade .carousel-item-next,
+    .carousel-fade .carousel-item-prev,
+    .carousel-fade .carousel-item.active.carousel-item-left,
+    .carousel-fade .carousel-item.active.carousel-item-prev {
+        transform: none !important;
+    }
+    
+    /* Ensure images cover the entire area smoothly without affecting layout */
     .carousel-image {
         width: 100% !important;
         height: 100% !important;
         object-fit: cover !important;
+        display: block !important;
+        background: transparent !important;
+        /* Prevent image from affecting page layout during transitions */
+        contain: style paint !important; /* Removed layout containment */
     }
     
-    /* Prevent flash with better transition */
-    .carousel .carousel-item {
-        transition: transform 0.6s ease !important;
-        -webkit-transition: transform 0.6s ease !important;
+    /* Remove any background that might show during transitions */
+    .carousel-item {
+        background: transparent !important;
+        position: relative !important;
+    }
+    
+    /* Prevent the entire carousel from affecting document flow - but keep it scoped */
+    .slider_img {
+        /* Set fixed height to prevent layout shifts - only for carousel section */
+        min-height: 400px !important;
+        contain: style !important; /* Removed layout containment to prevent header issues */
+        overflow: hidden !important;
+        /* Isolate carousel from affecting global layout */
+        position: relative !important;
+        z-index: 1 !important;
+    }
+    
+    /* Preload container improvements */
+    .preload-container {
+        position: absolute !important;
+        top: -9999px !important;
+        left: -9999px !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+    
+    .preload-image {
+        width: 1px !important;
+        height: 1px !important;
+        opacity: 0 !important;
     }
     
     /* Hero image overlay for better text readability */
@@ -203,23 +299,30 @@
     .modern-arrow-right i {
         font-size: 20px;
         color: white;
-    }
-    
-    /* Desktop hero styles */
-    @media (min-width: 768px) {
-        .carousel-item {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .carousel-item img {
-            filter: brightness(0.9);
-            transition: transform 8s ease;
-        }
-        
-        .carousel-item.active img {
-            transform: scale(1.05);
-        }
+    }        /* Desktop hero styles with proper layering */
+        @media (min-width: 768px) {
+            .carousel-item {
+                position: relative;
+                overflow: hidden;
+                background: transparent !important;
+                /* Prevent layout shifts during image scale animation - but keep scoped */
+                contain: style paint !important; /* Removed layout containment */
+            }
+            
+            .carousel-item img {
+                filter: brightness(0.9);
+                /* Remove transform animation that causes layout shifts */
+                transition: filter 0.3s ease !important;
+                background: transparent !important;
+                /* Prevent image scaling from affecting scrollbar */
+                will-change: filter !important;
+            }
+            
+            /* Remove the scale animation that causes scrollbar issues */
+            .carousel-item.active img {
+                /* transform: scale(1.05); */ /* Disabled to prevent layout shifts */
+                filter: brightness(0.85);
+            }
         
         .hero-decoration-circle {
             position: absolute;
@@ -406,67 +509,171 @@
             font-size: 16px;
         }
     }
+    
+    /* ============================================================ */
+    /* FIXES FOR HEADER AND DROPDOWN ISSUES CAUSED BY CAROUSEL */
+    /* ============================================================ */
+    
+    /* Ensure header affix behavior is not affected by carousel */
+    .affix {
+        position: fixed !important;
+        top: 0 !important;
+        right: 0 !important;
+        left: 0 !important;
+        z-index: 1030 !important;
+        /* Prevent carousel containment from affecting header */
+        contain: none !important;
+        background-color: #fff !important;
+        border-bottom: 1px solid #e6e6e6 !important;
+        box-shadow: 0px 3px 12px -5px rgba(0, 0, 0, 0.2) !important;
+    }
+    
+    /* Ensure dropdown menus work properly at all zoom levels */
+    .dropdown-menu {
+        position: absolute !important;
+        top: 100% !important;
+        left: 0 !important;
+        z-index: 1000 !important;
+        /* Prevent carousel containment from affecting dropdowns */
+        contain: none !important;
+        /* Ensure proper positioning even when page is zoomed */
+        transform: none !important;
+        will-change: auto !important;
+    }
+    
+    /* Mobile header fixes */
+    @media (max-width: 990px) {
+        .affix {
+            /* Ensure mobile header sticks properly */
+            position: fixed !important;
+            width: 100% !important;
+            contain: none !important;
+        }
+        
+        .navbar-collapse {
+            /* Ensure mobile menu doesn't get affected by carousel containment */
+            contain: none !important;
+            z-index: 1040 !important;
+        }
+    }
+    
+    /* Desktop dropdown positioning fixes */
+    @media (min-width: 991px) {
+        .dropdown:hover > .dropdown-menu {
+            visibility: visible !important;
+            opacity: 1 !important;
+            top: 45px !important;
+            /* Ensure dropdowns work at all zoom levels */
+            contain: none !important;
+            position: absolute !important;
+        }
+        
+        .dropdown .dropdown-menu {
+            /* Reset any containment that might affect dropdown positioning */
+            contain: none !important;
+            position: absolute !important;
+        }
+    }
+    
+    /* ============================================================ */
 </style>
 @endpush
 
 @push('scripts')
 <script>
     $(document).ready(function() {
-        // Ensure all images are loaded before carousel starts
-        var images = $('.carousel-image');
-        var loadedImages = 0;
+        // Create a comprehensive image preloading system
+        var allImages = [];
+        var loadedCount = 0;
+        var totalImages = 0;
+        var carouselInitialized = false;
         
-        images.each(function() {
-            if (this.complete) {
-                loadedImages++;
-                if (loadedImages === images.length) {
-                    initCarousel();
-                }
-            } else {
-                $(this).on('load', function() {
-                    loadedImages++;
-                    if (loadedImages === images.length) {
-                        initCarousel();
-                    }
-                });
-                
-                // Handle error case
-                $(this).on('error', function() {
-                    loadedImages++;
-                    if (loadedImages === images.length) {
-                        initCarousel();
-                    }
-                });
+        // Collect all images that need to be loaded
+        $('.carousel-image, .preload-image').each(function() {
+            var src = $(this).attr('src');
+            if (src && allImages.indexOf(src) === -1) {
+                allImages.push(src);
             }
         });
         
-        // If no images or all cached, still init
-        if (images.length === 0 || loadedImages === images.length) {
-            initCarousel();
+        totalImages = allImages.length;
+        
+        // Function to check if all images are loaded
+        function checkAllImagesLoaded() {
+            if (loadedCount >= totalImages && !carouselInitialized) {
+                carouselInitialized = true;
+                console.log('All images preloaded, initializing carousel...');
+                initCarousel();
+            }
         }
         
+        // Preload all images
+        if (totalImages > 0) {
+            allImages.forEach(function(src, index) {
+                var img = new Image();
+                img.onload = function() {
+                    loadedCount++;
+                    console.log('Image loaded: ' + (loadedCount) + '/' + totalImages);
+                    checkAllImagesLoaded();
+                };
+                img.onerror = function() {
+                    loadedCount++; // Count errors too to avoid hanging
+                    console.log('Image error: ' + (loadedCount) + '/' + totalImages);
+                    checkAllImagesLoaded();
+                };
+                img.src = src;
+            });
+        } else {
+            initCarousel(); // No images to load
+        }
+        
+        // Fallback timeout - initialize carousel after 3 seconds even if images aren't loaded
+        setTimeout(function() {
+            if (!carouselInitialized) {
+                console.log('Timeout reached, forcing carousel initialization...');
+                carouselInitialized = true;
+                initCarousel();
+            }
+        }, 3000);
+        
         function initCarousel() {
+            // Add loading overlay removal
+            $('.slider_img').removeClass('loading');
+            
             // Disable auto-sliding on mobile devices
             if ($(window).width() < 768) {
                 $('#homeCarousel').carousel({
                     interval: false
                 });
             } else {
-                // Force carousel to auto-slide on desktop
+                // Force carousel to auto-slide on desktop with fade transition
                 $('#homeCarousel').carousel('dispose');
                 
-                // Create new carousel with auto-sliding
+                // Create new carousel with crossfade transition
                 $('#homeCarousel').carousel({
                     interval: 7000,
-                    pause: false // Don't pause on hover
+                    pause: false, // Don't pause on hover
+                    wrap: true
                 });
                 
-                // Force start the carousel (ignoring URL hash)
+                // Prevent layout shifts during transitions - but scoped to carousel only
+                $('#homeCarousel').on('slide.bs.carousel', function (e) {
+                    // Temporarily disable overflow only on carousel container, not body
+                    $('#homeCarousel').css('overflow', 'hidden');
+                });
+                
+                $('#homeCarousel').on('slid.bs.carousel', function (e) {
+                    // Re-enable overflow after transition completes - scoped to carousel
+                    setTimeout(function() {
+                        $('#homeCarousel').css('overflow', '');
+                    }, 100);
+                });
+                
+                // Force start the carousel
                 $('#homeCarousel').carousel('cycle');
                 
                 // Make sure URL hash doesn't interfere with auto-sliding
                 if (window.location.hash) {
-                    // Remove the hash to prevent it from affecting the carousel
                     history.replaceState("", document.title, window.location.pathname + window.location.search);
                 }
                 
@@ -481,4 +688,4 @@
         }
     });
 </script>
-@endpush 
+@endpush

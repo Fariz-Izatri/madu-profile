@@ -9,7 +9,7 @@
     <title>@yield('title', 'Unisco - Education Website')</title>
     
     <!-- Favicon -->
-    <link rel="icon" href="https://satriadata.kemdikbud.go.id/wp-content/uploads/2020/08/Logo-kemendikbud.png" type="image/png">
+    <link rel="icon" type="image/png" href="{{ asset('images/school-logo/logo-sdnmedokanayu2.png') }}">
     
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">

@@ -6,10 +6,10 @@
         <div class="row">
             <div class="col-md-2">
                 <div class="event-date">
-                    <h4>{{ \Carbon\Carbon::parse($event->date)->format('d') }}</h4>
-                    <span>{{ \Carbon\Carbon::parse($event->date)->format('M Y') }}</span>
+                    <h4>{{ \Carbon\Carbon::parse($event->event_date)->format('d') }}</h4>
+                    <span>{{ \Carbon\Carbon::parse($event->event_date)->format('M Y') }}</span>
                 </div>
-                <span class="event-time">{{ $event->time }}</span>
+                <span class="event-time">{{ $event->event_time }}</span>
             </div>
             <div class="col-md-10">
                 <div class="event-heading">

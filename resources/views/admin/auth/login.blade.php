@@ -1,49 +1,92 @@
 @extends('admin.layouts.guest')
 
 @section('content')
-     <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    <!-- Session Status -->
+    @if (session('status'))
+        <div class="admin-login-alert">
+            <span>✓</span>
+            {{ session('status') }}
+        </div>
+    @endif
 
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('login') }}" id="loginForm">
         @csrf
 
         <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <div class="admin-login-form-group">
+            <label for="email" class="admin-login-label">Email Address</label>
+            <input 
+                id="email" 
+                class="admin-login-input @error('email') admin-login-error @enderror" 
+                type="email" 
+                name="email" 
+                value="{{ old('email') }}" 
+                placeholder="Enter your email"
+                required 
+                autofocus 
+                autocomplete="username" 
+            />
+            @error('email')
+                <div class="admin-login-error">{{ $message }}</div>
+            @enderror
         </div>
 
         <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div class="admin-login-form-group">
+            <label for="password" class="admin-login-label">Password</label>
+            <input 
+                id="password" 
+                class="admin-login-input @error('password') admin-login-error @enderror"
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                required 
+                autocomplete="current-password" 
+            />
+            @error('password')
+                <div class="admin-login-error">{{ $message }}</div>
+            @enderror
         </div>
 
         <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
+        <div class="admin-login-checkbox-group">
+            <input 
+                id="remember_me" 
+                type="checkbox" 
+                class="admin-login-checkbox" 
+                name="remember"
+                {{ old('remember') ? 'checked' : '' }}
+            />
+            <label for="remember_me" class="admin-login-checkbox-label">Remember me</label>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
+        <div class="admin-login-actions">
+            <span></span>
+            <button type="submit" class="admin-login-button" id="loginButton">
+                Sign In
+            </button>
         </div>
     </form>
+
+    <script>
+        // Add loading state to form submission
+        document.getElementById('loginForm').addEventListener('submit', function() {
+            const button = document.getElementById('loginButton');
+            button.classList.add('loading');
+            button.textContent = 'Signing In...';
+            button.disabled = true;
+        });
+
+        // Add focus effects
+        const inputs = document.querySelectorAll('.admin-login-input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.querySelector('.admin-login-label').style.color = 'var(--primary-color)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.querySelector('.admin-login-label').style.color = 'var(--text-primary)';
+            });
+        });
+    </script>
 @endsection
